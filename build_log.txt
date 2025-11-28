@@ -1,0 +1,75 @@
+
+> vite_react_shadcn_ts@0.0.0 build
+> vite build
+
+vite v6.3.4 building for production...
+transforming...
+
+warn - The `content` option in your Tailwind CSS configuration is missing or empty.
+warn - Configure your content sources or your generated CSS will be missing styles.
+warn - https://tailwindcss.com/docs/content-configuration
+✓ 5 modules transformed.
+
+✨ [vite-plugin-compression]:algorithm=gzip - compressed file successfully: 
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/ContactModal-Cn7yYXTx.js.gz          6.12kb / gzip: 2.12kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/FeedbackModal-BfjFG0na.js.gz         6.95kb / gzip: 2.27kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/HowWeVerify-DA8carEV.js.gz           10.33kb / gzip: 2.57kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/SubmitOfferModal-RVN1qPZb.js.gz      10.70kb / gzip: 3.89kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/Favorites-Bw9mO7GO.js.gz             1.70kb / gzip: 0.85kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/feedback-RBTYXqhH.js.gz              2.48kb / gzip: 0.67kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/form-BZCdJ0-G.js.gz                  3.40kb / gzip: 1.56kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/CookieConsentBanner-BFLshVf7.js.gz   7.96kb / gzip: 2.82kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/index-CAfcpVin.css.gz                8.83kb / gzip: 2.58kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/Admin-BcIiw7RT.js.gz                 45.99kb / gzip: 11.77kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/AllTools-BCO_X6YW.js.gz              40.32kb / gzip: 11.92kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/select-C-skiySc.js.gz                3.47kb / gzip: 1.28kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/utils-BkLtITBR.js.gz                 19.77kb / gzip: 6.65kb
+dist//Users/kartik/Desktop/Student Offers Gemini/index.html.gz                               5.77kb / gzip: 1.96kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/forms-BzB4h-gT.js.gz                 81.53kb / gzip: 22.25kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/radix-ui-DUxU2Y3y.js.gz              91.21kb / gzip: 30.41kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/motion-DmYAD3-Z.js.gz                112.81kb / gzip: 37.14kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/data-aMwdT0fq.js.gz                  180.01kb / gzip: 48.85kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/react-vendor-CASpIwu5.js.gz          161.84kb / gzip: 52.83kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/index-UUlqmO3r.js.gz                 351.32kb / gzip: 104.17kb
+dist//Users/kartik/Desktop/Student Offers Gemini/stats.html.gz                               1151.46kb / gzip: 119.80kb
+
+
+
+✨ [vite-plugin-compression]:algorithm=brotliCompress - compressed file successfully: 
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/ContactModal-Cn7yYXTx.js.br          6.12kb / brotliCompress: 1.84kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/CookieConsentBanner-BFLshVf7.js.br   7.96kb / brotliCompress: 2.41kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/Favorites-Bw9mO7GO.js.br             1.70kb / brotliCompress: 0.72kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/FeedbackModal-BfjFG0na.js.br         6.95kb / brotliCompress: 1.98kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/SubmitOfferModal-RVN1qPZb.js.br      10.70kb / brotliCompress: 3.41kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/AllTools-BCO_X6YW.js.br              40.32kb / brotliCompress: 10.66kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/Admin-BcIiw7RT.js.br                 45.99kb / brotliCompress: 10.30kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/feedback-RBTYXqhH.js.br              2.48kb / brotliCompress: 0.57kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/HowWeVerify-DA8carEV.js.br           10.33kb / brotliCompress: 2.13kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/form-BZCdJ0-G.js.br                  3.40kb / brotliCompress: 1.39kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/index-CAfcpVin.css.br                8.83kb / brotliCompress: 2.25kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/select-C-skiySc.js.br                3.47kb / brotliCompress: 1.10kb
+dist//Users/kartik/Desktop/Student Offers Gemini/index.html.br                               5.77kb / brotliCompress: 1.46kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/utils-BkLtITBR.js.br                 19.77kb / brotliCompress: 5.88kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/forms-BzB4h-gT.js.br                 81.53kb / brotliCompress: 20.01kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/motion-DmYAD3-Z.js.br                112.81kb / brotliCompress: 33.44kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/radix-ui-DUxU2Y3y.js.br              91.21kb / brotliCompress: 26.80kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/data-aMwdT0fq.js.br                  180.01kb / brotliCompress: 42.50kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/react-vendor-CASpIwu5.js.br          161.84kb / brotliCompress: 46.27kb
+dist//Users/kartik/Desktop/Student Offers Gemini/assets/index-UUlqmO3r.js.br                 351.32kb / brotliCompress: 88.68kb
+dist//Users/kartik/Desktop/Student Offers Gemini/stats.html.br                               1151.46kb / brotliCompress: 83.19kb
+
+
+✗ Build failed in 2.31s
+error during build:
+[vite:css] [postcss] /Users/kartik/Desktop/Student Offers Gemini/src/globals.css:1:1: The `bg-background` class does not exist. If `bg-background` is a custom class, make sure it is defined within a `@layer` directive.
+file: /Users/kartik/Desktop/Student Offers Gemini/src/globals.css:1:0
+    at Input.error (/Users/kartik/Desktop/Student Offers Gemini/node_modules/.pnpm/postcss@8.5.3/node_modules/postcss/lib/input.js:113:16)
+    at AtRule.error (/Users/kartik/Desktop/Student Offers Gemini/node_modules/.pnpm/postcss@8.5.3/node_modules/postcss/lib/node.js:149:32)
+    at processApply (/Users/kartik/Desktop/Student Offers Gemini/node_modules/.pnpm/tailwindcss@3.4.17/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:380:29)
+    at /Users/kartik/Desktop/Student Offers Gemini/node_modules/.pnpm/tailwindcss@3.4.17/node_modules/tailwindcss/lib/lib/expandApplyAtRules.js:551:9
+    at /Users/kartik/Desktop/Student Offers Gemini/node_modules/.pnpm/tailwindcss@3.4.17/node_modules/tailwindcss/lib/processTailwindFeatures.js:55:50
+    at async plugins (/Users/kartik/Desktop/Student Offers Gemini/node_modules/.pnpm/tailwindcss@3.4.17/node_modules/tailwindcss/lib/plugin.js:38:17)
+    at async LazyResult.runAsync (/Users/kartik/Desktop/Student Offers Gemini/node_modules/.pnpm/postcss@8.5.3/node_modules/postcss/lib/lazy-result.js:293:11)
+    at async runPostCSS (file:///Users/kartik/Desktop/Student%20Offers%20Gemini/node_modules/.pnpm/vite@6.3.4_@types+node@22.14.1_jiti@1.21.7_yaml@2.7.1/node_modules/vite/dist/node/chunks/dep-Bn81Esdm.js:43824:21)
+    at async compilePostCSS (file:///Users/kartik/Desktop/Student%20Offers%20Gemini/node_modules/.pnpm/vite@6.3.4_@types+node@22.14.1_jiti@1.21.7_yaml@2.7.1/node_modules/vite/dist/node/chunks/dep-Bn81Esdm.js:43794:18)
+    at async compileCSS (file:///Users/kartik/Desktop/Student%20Offers%20Gemini/node_modules/.pnpm/vite@6.3.4_@types+node@22.14.1_jiti@1.21.7_yaml@2.7.1/node_modules/vite/dist/node/chunks/dep-Bn81Esdm.js:43649:27)
