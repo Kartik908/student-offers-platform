@@ -71,15 +71,19 @@ const CategoryNav = ({ activeCategory, onCategoryChange, categories }: CategoryN
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (container) {
-      manageArrows();
+      // Initial check with a small delay to ensure layout is ready
+      const timeoutId = setTimeout(manageArrows, 100);
+
       container.addEventListener('scroll', manageArrows);
       window.addEventListener('resize', manageArrows);
+
       return () => {
+        clearTimeout(timeoutId);
         container.removeEventListener('scroll', manageArrows);
         window.removeEventListener('resize', manageArrows);
       };
     }
-  }, [manageArrows]);
+  }, [manageArrows, allCategories]);
 
 
 

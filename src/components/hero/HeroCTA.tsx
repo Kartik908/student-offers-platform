@@ -20,7 +20,7 @@ export const HeroCTA = () => {
 
   return (
     <div className="flex items-center justify-center mt-7 sm:mt-10">
-      <Button asChild size="lg" className="h-12 px-6 text-base font-semibold group">
+      <Button asChild size="lg" className="h-[52px] sm:h-12 px-6 text-base font-semibold group">
         <Link to="/tools" className="flex items-center gap-2" onClick={handleCTAClick}>
           Browse All Tools
           <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
