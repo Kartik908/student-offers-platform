@@ -54,4 +54,5 @@ export interface Offer {
   extra_info: string | null;
   urgency_badge: string | null;
   is_underrated: boolean;
+  slug?: string;
 }

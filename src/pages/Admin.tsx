@@ -4,6 +4,7 @@ import { AddOfferForm } from "@/components/admin/AddOfferForm";
 import { ManageOffersTable } from "@/components/admin/ManageOffersTable";
 import { FeedbackTable } from "@/components/admin/FeedbackTable";
 import { ContactTable } from "@/components/admin/ContactTable";
+import { OfferVisibilityTable } from "@/components/admin/OfferVisibilityTable";
 
 import { AdminLogin } from "@/components/admin/AdminLogin";
 import { Button } from "@/components/ui/button";
@@ -99,13 +100,14 @@ const Admin = () => {
         </Button>
       </div>
       <Tabs defaultValue="submissions" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-6 lg:grid-cols-7">
           <TabsTrigger value="submissions">Submissions</TabsTrigger>
           <TabsTrigger value="feedback">Feedback</TabsTrigger>
           <TabsTrigger value="contact">Contact</TabsTrigger>
 
           <TabsTrigger value="add-offer">Add Offer</TabsTrigger>
           <TabsTrigger value="manage-offers">Manage Offers</TabsTrigger>
+          <TabsTrigger value="visibility">Visibility</TabsTrigger>
         </TabsList>
 
         <TabsContent value="submissions" className="space-y-6">
@@ -120,14 +122,16 @@ const Admin = () => {
           <ContactTable />
         </TabsContent>
 
-
-
         <TabsContent value="add-offer" className="space-y-6">
           <AddOfferForm />
         </TabsContent>
 
         <TabsContent value="manage-offers" className="space-y-6">
           <ManageOffersTable />
+        </TabsContent>
+
+        <TabsContent value="visibility" className="space-y-6">
+          <OfferVisibilityTable />
         </TabsContent>
       </Tabs>
     </div>

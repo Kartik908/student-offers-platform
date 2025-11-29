@@ -42,14 +42,17 @@ export const offersService = {
       .from('offers')
       .update(updates)
       .eq('id', id)
-      .select()
-      .single();
+      .select();
 
     if (error) {
       console.error('Update offer error:', error);
       throw new Error(error.message);
     }
 
-    return data;
+    if (!data || data.length === 0) {
+      throw new Error('Offer not found or permission denied');
+    }
+
+    return data[0] as Offer;
   }
 };
