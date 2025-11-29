@@ -199,7 +199,7 @@ const CategoryNav = ({ activeCategory, onCategoryChange, categories }: CategoryN
           </nav>
         </div>
         {showArrows.left && (
-          <div className="absolute left-0 top-0 bottom-0 hidden md:flex items-center bg-gradient-to-r from-background via-background/80 to-transparent pr-12 pointer-events-none">
+          <div className="absolute left-0 top-0 bottom-0 flex items-center bg-gradient-to-r from-background via-background/80 to-transparent pr-12 pointer-events-none">
             <Button
               variant="outline"
               size="icon"
@@ -212,7 +212,7 @@ const CategoryNav = ({ activeCategory, onCategoryChange, categories }: CategoryN
           </div>
         )}
         {showArrows.right && (
-          <div className="absolute right-0 top-0 bottom-0 hidden md:flex items-center justify-end bg-gradient-to-l from-background via-background/80 to-transparent pl-12 pointer-events-none">
+          <div className="absolute right-0 top-0 bottom-0 flex items-center justify-end bg-gradient-to-l from-background via-background/80 to-transparent pl-12 pointer-events-none">
             <Button
               variant="outline"
               size="icon"

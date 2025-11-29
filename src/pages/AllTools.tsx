@@ -239,54 +239,52 @@ const AllTools = () => {
               </div>
             </div>
 
-            {/* Mobile: Stack controls vertically */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
-              <div className="flex items-center gap-2">
+            {/* Mobile: Inline controls with wrap */}
+            <div className="flex flex-row flex-wrap items-center gap-2 w-full sm:w-auto">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div>
+                    <Select value={sortBy} onValueChange={handleSortChange}>
+                      <SelectTrigger className="w-[140px]">
+                        <SelectValue placeholder="Sort by" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="newest">Newest</SelectItem>
+                        <SelectItem value="popular">Popular</SelectItem>
+                        <SelectItem value="alphabetical">Alphabetical A-Z</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Sort by</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div>
+                    <Select value={String(itemsPerPage)} onValueChange={(v) => handleItemsPerPageChange(Number(v))}>
+                      <SelectTrigger className="w-[80px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="12">12</SelectItem>
+                        <SelectItem value="24">24</SelectItem>
+                        <SelectItem value="48">48</SelectItem>
+                        <SelectItem value="96">96</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Items per page</p>
+                </TooltipContent>
+              </Tooltip>
+              <ToggleGroup type="single" value={view} defaultValue="grid" onValueChange={(v) => v && handleViewChange(v as 'grid' | 'list')} variant="outline" className="w-auto ml-auto">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div>
-                      <Select value={sortBy} onValueChange={handleSortChange}>
-                        <SelectTrigger className="w-full sm:w-[140px]">
-                          <SelectValue placeholder="Sort by" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="newest">Newest</SelectItem>
-                          <SelectItem value="popular">Popular</SelectItem>
-                          <SelectItem value="alphabetical">Alphabetical A-Z</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Sort by</p>
-                  </TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div>
-                      <Select value={String(itemsPerPage)} onValueChange={(v) => handleItemsPerPageChange(Number(v))}>
-                        <SelectTrigger className="w-20 sm:w-[80px]">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="12">12</SelectItem>
-                          <SelectItem value="24">24</SelectItem>
-                          <SelectItem value="48">48</SelectItem>
-                          <SelectItem value="96">96</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Items per page</p>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-              <ToggleGroup type="single" value={view} defaultValue="grid" onValueChange={(v) => v && handleViewChange(v as 'grid' | 'list')} variant="outline" className="w-full sm:w-auto">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div>
-                      <ToggleGroupItem value="grid" aria-label="Grid view" className="flex-1 sm:flex-initial">
+                      <ToggleGroupItem value="grid" aria-label="Grid view">
                         <LayoutGrid className="h-4 w-4" />
                       </ToggleGroupItem>
                     </div>
@@ -298,7 +296,7 @@ const AllTools = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div>
-                      <ToggleGroupItem value="list" aria-label="List view" className="flex-1 sm:flex-initial">
+                      <ToggleGroupItem value="list" aria-label="List view">
                         <List className="h-4 w-4" />
                       </ToggleGroupItem>
                     </div>
