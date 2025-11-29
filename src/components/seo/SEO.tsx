@@ -7,6 +7,7 @@ interface SEOProps {
     keywords?: string;
     image?: string;
     type?: string;
+    structuredData?: any;
 }
 
 export function SEO({
@@ -15,7 +16,8 @@ export function SEO({
     canonical,
     keywords,
     image = 'https://studentoffers.co/og-image.png',
-    type = 'website'
+    type = 'website',
+    structuredData
 }: SEOProps) {
     const siteTitle = 'Student Offers';
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
@@ -37,12 +39,14 @@ export function SEO({
             <meta property="og:image" content={image} />
             <meta property="og:site_name" content={siteTitle} />
 
-            {/* Twitter */}
-            <meta property="twitter:card" content="summary_large_image" />
-            <meta property="twitter:url" content={currentUrl} />
-            <meta property="twitter:title" content={fullTitle} />
-            <meta property="twitter:description" content={description} />
             <meta property="twitter:image" content={image} />
+
+            {/* Structured Data */}
+            {structuredData && (
+                <script type="application/ld+json">
+                    {JSON.stringify(structuredData)}
+                </script>
+            )}
         </Helmet>
     );
 }

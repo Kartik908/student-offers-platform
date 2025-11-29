@@ -54,12 +54,40 @@ const Index = () => {
   // Only show loading state if we have no data at all
   const showLoadingState = isLoading && !offers;
 
+  // Generate structured data for the list of offers
+  const structuredData = useMemo(() => {
+    if (!offers) return null;
+
+    return {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": offers.slice(0, 20).map((offer, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Product",
+          "name": offer.name,
+          "description": offer.description,
+          "url": offer.claim_url,
+          "image": offer.logo || "https://studentoffers.co/og-image.png",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+          }
+        }
+      }))
+    };
+  }, [offers]);
+
   return (
     <main className="flex flex-col">
       <SEO
         title="Student Offers"
         description="The #1 curated student discount directory. Access $5k+ in verified offers for GitHub, Notion, Adobe & Spotify. Legit 2025 deals without the spam."
         canonical="https://studentoffers.co/"
+        structuredData={structuredData}
       />
       <Hero offerCount={offers?.length || 180} />
 

@@ -88,30 +88,29 @@ const SiteHeader = () => {
           </div>
 
           {/* Actions cluster - compact on mobile */}
-          <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
+          <div className="flex items-center gap-2 md:gap-3">
             {/* Theme toggle and favorites with compact spacing */}
-            <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
-              <ThemeToggle />
-              <NavLink
-                to="/favorites"
-                onClick={() => trackNavigation(location.pathname, '/favorites')}
+            <ThemeToggle />
+            <NavLink
+              to="/favorites"
+              className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11"
+              onClick={() => trackNavigation(location.pathname, '/favorites')}
+            >
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label={`Favorites (${favorites.length})`}
+                className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 relative min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px]"
               >
-                <Button
-                  variant="outline"
-                  size="icon"
-                  aria-label={`Favorites (${favorites.length})`}
-                  className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 relative min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px]"
-                >
-                  <Heart className="h-4 w-4 sm:h-5 sm:w-5 stroke-[1.5]" />
-                  {favorites.length > 0 && (
-                    <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs font-medium flex items-center justify-center min-w-[20px]">
-                      {favorites.length > 99 ? '99+' : favorites.length}
-                    </span>
-                  )}
-                  <span className="sr-only">Favorites ({favorites.length})</span>
-                </Button>
-              </NavLink>
-            </div>
+                <Heart className="h-4 w-4 sm:h-5 sm:w-5 stroke-[1.5]" />
+                {favorites.length > 0 && (
+                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs font-medium flex items-center justify-center min-w-[20px]">
+                    {favorites.length > 99 ? '99+' : favorites.length}
+                  </span>
+                )}
+                <span className="sr-only">Favorites ({favorites.length})</span>
+              </Button>
+            </NavLink>
 
             {/* Mobile search */}
             <Button

@@ -3,18 +3,17 @@ import { Offer } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { GlassClaimButton } from "@/components/ui/glass-claim-button";
-import { Heart, MapPin, ExternalLink, Info } from "lucide-react";
+import { Heart, MapPin } from "lucide-react";
 import { useFavorites } from "@/providers/FavoritesProvider";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
-import OfferExtraDetails from "@/components/offers/OfferExtraDetails";
+import { motion } from "framer-motion";
 import RegionalOfferModal from "@/components/offers/RegionalOfferModal";
 import ExtraInfoModal from "@/components/offers/ExtraInfoModal";
 import DiscountCodeModal from "@/components/offers/DiscountCodeModal";
 import { CustomOfferModal } from "@/components/offers/CustomOfferModals";
 import { shouldUseCustomModal } from "@/lib/customModalConfig";
 import { getOfferBadgeClasses } from "@/lib/offerUtils";
-import { trackOfferViewed, trackOfferClicked, trackButtonClick, track } from "@/lib/trackingManager";
+import { trackOfferViewed, trackButtonClick, track } from "@/lib/trackingManager";
 import { hasRegionalOffers } from "@/lib/regionalOffers";
 import {
     Tooltip,
@@ -29,8 +28,6 @@ interface OfferListItemProps {
 const OfferListItem = ({ deal }: OfferListItemProps) => {
     const { isFavorite, addFavorite, removeFavorite } = useFavorites();
     const favorite = isFavorite(String(deal.id));
-    const [isExpanded, setIsExpanded] = useState(false);
-    const [logoError, setLogoError] = useState(false);
     const [tagsExpanded, setTagsExpanded] = useState(false);
     const [hasBeenViewed, setHasBeenViewed] = useState(false);
     const [isRegionalModalOpen, setIsRegionalModalOpen] = useState(false);
@@ -89,29 +86,6 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
 
         if (favorite) removeFavorite(String(deal.id));
         else addFavorite(String(deal.id));
-    };
-
-    const handleCardClick = () => {
-        track('offer_card_clicked', {
-            offer_name: deal.name,
-            offer_type: deal.github_offer ? 'github' : deal.is_hidden_gem ? 'hidden_gem' : deal.is_featured ? 'featured' : 'regular',
-            view_type: 'list',
-            has_details: hasExtraDetails
-        });
-
-        // Track offer interaction with PostHog
-        if (typeof window !== 'undefined' && window.posthog) {
-            window.posthog.capture('offer_card_clicked', {
-                offer_name: deal.name,
-                offer_category: deal.tags?.[0] || 'uncategorized',
-                offer_value: deal.offer,
-                offer_id: deal.id.toString(),
-            });
-        }
-
-        if (hasExtraDetails) {
-            setIsExpanded(!isExpanded);
-        }
     };
 
     const handleTagClick = (tag: string, e: React.MouseEvent) => {
@@ -267,7 +241,7 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
             ref={itemRef}
             layout
             className={cn(
-                "group bg-card border rounded-2xl shadow-md hover:shadow-xl hover:border-primary/30 hover:bg-accent/30 transition-all duration-200 flex flex-col relative hover:z-20 cursor-pointer motion-safe:hover:-translate-y-1",
+                "group bg-card border rounded-2xl shadow-md hover:shadow-xl hover:border-primary/30 hover:bg-accent/30 transition-all duration-200 flex flex-col relative hover:z-20 motion-safe:hover:-translate-y-1",
                 "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                 "p-4"
             )}
@@ -309,10 +283,7 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
                 {/* Main Content */}
                 <div className="flex-grow min-w-0">
                     <div className="flex items-start justify-between gap-3">
-                        <div
-                            className="flex-grow min-w-0 cursor-pointer"
-                            onClick={handleCardClick}
-                        >
+                        <div className="flex-grow min-w-0">
                             {/* Title */}
                             <h3 className="font-semibold text-base leading-tight truncate-1 group-hover:text-primary transition-colors mb-2">
                                 {deal.name}
@@ -320,10 +291,12 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
 
                             {/* Offer Badge with Urgency Badge on Right */}
                             <div className="mb-3 flex items-center gap-2">
-                                <div className={cn(
-                                    "text-sm font-semibold px-3 py-2 rounded-lg border flex items-center justify-center",
-                                    getOfferBadgeClasses(deal.offer)
-                                )}>
+                                <div
+                                    className={cn(
+                                        "text-sm font-semibold px-3 py-2 rounded-lg border flex items-center justify-center",
+                                        getOfferBadgeClasses(deal.offer)
+                                    )}
+                                >
                                     <span className="line-clamp-1">{deal.offer}</span>
                                 </div>
                                 {urgencyBadge && (
@@ -423,23 +396,6 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
                     <ClaimButton />
                 </div>
             </div>
-
-            <AnimatePresence>
-                {isExpanded && (
-                    <motion.section
-                        key="content"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                        className="overflow-hidden"
-                    >
-                        <div className="mt-4 pt-4 border-t border-border/30 bg-muted/20 rounded-lg mx-0 px-4 pb-4">
-                            <OfferExtraDetails offer={deal} />
-                        </div>
-                    </motion.section>
-                )}
-            </AnimatePresence>
 
             {/* Modals */}
             {useCustomModal && <CustomOfferModal isOpen={isCustomModalOpen} onClose={() => setIsCustomModalOpen(false)} offer={deal} />}

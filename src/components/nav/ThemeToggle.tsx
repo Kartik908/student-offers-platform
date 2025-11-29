@@ -38,7 +38,7 @@ const ThemeToggle = () => {
       <Button
         variant="outline"
         size="icon"
-        className="h-11 w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 min-h-[44px] min-w-[44px]"
+        className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px]"
       >
         <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
         <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -52,7 +52,7 @@ const ThemeToggle = () => {
       variant="outline"
       size="icon"
       onClick={handleToggle}
-      className="h-11 w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 min-h-[44px] min-w-[44px] relative"
+      className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px] relative"
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
     >
       <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
