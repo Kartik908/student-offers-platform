@@ -4,7 +4,6 @@
 export { default as OfferCard } from './OfferCard';
 export { default as OfferListItem } from './OfferListItem';
 export { default as OffersGrid } from './OffersGrid';
-export { default as OfferDetailsModal } from './OfferDetailsModal';
 export { default as OfferExtraDetails } from './OfferExtraDetails';
 
 export { default as SuggestedOffers } from './SuggestedOffers';

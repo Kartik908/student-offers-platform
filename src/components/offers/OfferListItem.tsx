@@ -225,16 +225,35 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
         );
     };
 
-    // Generate monogram fallback
-    const getMonogram = (name: string) => {
-        return name.split(' ').map(word => word[0]).join('').substring(0, 2).toUpperCase();
-    };
-
     // Calculate extra tags count (limit to 1 primary + location)
     const primaryTag = deal.tags?.[0];
     const extraTagsCount = (deal.tags?.length || 0) - 1;
     const hiddenTags = deal.tags?.slice(1) || [];
     const hiddenTagsText = hiddenTags.join(', ');
+
+    const renderFavoriteButton = (className?: string) => (
+        <Tooltip>
+            <TooltipTrigger asChild>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleFavoriteClick}
+                    className={cn(
+                        "h-9 w-9 rounded-full flex-shrink-0 transition-all duration-200 group/favorite",
+                        favorite ? "text-destructive hover:text-destructive/90 hover:bg-destructive/10" : "text-muted-foreground hover:text-red-500 hover:bg-red-500/10",
+                        className
+                    )}
+                    aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+                    aria-pressed={favorite}
+                >
+                    <Heart className={cn("h-5 w-5 transition-transform duration-200 motion-safe:group-hover/favorite:scale-110", favorite && "fill-current animate-like")} />
+                </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+                <p>{favorite ? "Remove from favorites" : "Add to favorites"}</p>
+            </TooltipContent>
+        </Tooltip>
+    );
 
     return (
         <motion.div
@@ -243,15 +262,15 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
             className={cn(
                 "group bg-card border rounded-2xl shadow-md hover:shadow-xl hover:border-primary/30 hover:bg-accent/30 transition-all duration-200 flex flex-col relative hover:z-20 motion-safe:hover:-translate-y-1",
                 "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                "p-4"
+                "p-3"
             )}
             tabIndex={0}
             role="article"
             aria-label={`${deal.name} offer`}
         >
-            <div className="flex items-start gap-4 mb-3">
+            <div className="flex items-start gap-5">
                 {/* Logo - Consistent size with video support */}
-                <div className="h-12 w-12 rounded-xl border border-border/50 overflow-hidden flex items-center justify-center flex-shrink-0">
+                <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl border border-border/50 overflow-hidden flex items-center justify-center flex-shrink-0 bg-muted/20">
                     {deal.logo?.endsWith('.mp4') || deal.logo?.endsWith('.webm') ? (
                         <video
                             src={deal.logo}
@@ -281,120 +300,117 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
                 </div>
 
                 {/* Main Content */}
-                <div className="flex-grow min-w-0">
-                    <div className="flex items-start justify-between gap-3">
-                        <div className="flex-grow min-w-0">
-                            {/* Title */}
-                            <h3 className="font-semibold text-base leading-tight truncate-1 group-hover:text-primary transition-colors mb-2">
-                                {deal.name}
-                            </h3>
+                <div className="flex-grow min-w-0 sm:pr-28">
+                    {/* Title Row */}
+                    <div className="flex justify-between items-start gap-2 mb-1">
+                        <h3 className="font-medium text-lg leading-tight truncate-1 group-hover:text-primary transition-colors">
+                            {deal.name}
+                        </h3>
+                        {/* Mobile Favorite Button */}
+                        {renderFavoriteButton("sm:hidden -mt-1 -mr-1")}
+                    </div>
 
-                            {/* Offer Badge with Urgency Badge on Right */}
-                            <div className="mb-3 flex items-center gap-2">
-                                <div
-                                    className={cn(
-                                        "text-sm font-semibold px-3 py-2 rounded-lg border flex items-center justify-center",
-                                        getOfferBadgeClasses(deal.offer)
-                                    )}
-                                >
-                                    <span className="line-clamp-1">{deal.offer}</span>
-                                </div>
-                                {urgencyBadge && (
-                                    <div className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 bg-destructive/80 text-destructive-foreground/90 rounded-full text-[9px] sm:text-[10px] font-semibold shadow-sm whitespace-nowrap">
-                                        {urgencyBadge.emoji && <span className="text-[10px] sm:text-[11px]">{urgencyBadge.emoji}</span>}
-                                        <span>{urgencyBadge.text}</span>
-                                    </div>
-                                )}
+                    {/* Ribbon + Urgency Badge (Responsive) */}
+                    <div className="mb-1.5 flex items-start gap-2 flex-wrap">
+                        <div
+                            className={cn(
+                                "text-xs font-semibold px-2.5 rounded-lg border flex items-center justify-center h-7 max-w-fit",
+                                getOfferBadgeClasses(deal.offer)
+                            )}
+                        >
+                            <span className="line-clamp-1">{deal.offer}</span>
+                        </div>
+                        {urgencyBadge && (
+                            <div className="flex items-center justify-center gap-1.5 px-2.5 py-0.5 bg-destructive/80 text-destructive-foreground/90 rounded-full text-[10px] font-semibold shadow-sm whitespace-nowrap h-7">
+                                {urgencyBadge.emoji && <span className="text-[10px]">{urgencyBadge.emoji}</span>}
+                                <span className="truncate">{urgencyBadge.text}</span>
                             </div>
+                        )}
+                    </div>
 
-                            {/* Description */}
-                            <p className="text-sm text-muted-foreground truncate-2 leading-normal">
-                                {deal.description}
-                            </p>
+                    {/* Description */}
+                    <p className="text-sm text-muted-foreground line-clamp-2 leading-tight mb-2.5 max-w-2xl">
+                        {deal.description}
+                    </p>
+
+                    {/* Tags Row */}
+                    <div className="flex items-center justify-between gap-2 flex-wrap min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap min-w-0">
+                            {/* Primary category tag */}
+                            {primaryTag && (
+                                <Badge
+                                    variant="secondary"
+                                    className="text-xs px-2.5 py-0.5 h-6 cursor-pointer hover:bg-secondary/80 flex-shrink-0 transition-colors duration-200"
+                                    onClick={(e) => handleTagClick(primaryTag, e)}
+                                >
+                                    {primaryTag}
+                                </Badge>
+                            )}
+
+                            {/* Location badge */}
+                            <Badge variant="outline" className="text-xs px-2.5 py-0.5 h-6 flex-shrink-0 border-border/60 bg-background/50">
+                                <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                                <span className="truncate max-w-[100px]">{deal.location}</span>
+                            </Badge>
+
+                            {/* Expanded tags (when toggled) */}
+                            {tagsExpanded && hiddenTags.map((tag) => (
+                                <Badge
+                                    key={tag}
+                                    variant="secondary"
+                                    className="text-xs px-2.5 py-0.5 h-6 cursor-pointer hover:bg-secondary/80 flex-shrink-0 transition-colors duration-200"
+                                    onClick={(e) => handleTagClick(tag, e)}
+                                >
+                                    {tag}
+                                </Badge>
+                            ))}
+
+                            {/* Interactive +n / − chip */}
+                            {extraTagsCount > 0 && (
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <span>
+                                            <Badge
+                                                variant="outline"
+                                                className="text-xs px-2 py-0.5 h-6 text-muted-foreground cursor-pointer hover:bg-muted/50 hover:text-foreground transition-colors duration-200 flex-shrink-0 border-border/60"
+                                                onClick={handleTagsToggle}
+                                                onMouseEnter={handleTagsTooltipView}
+                                            >
+                                                {tagsExpanded ? `−${extraTagsCount}` : `+${extraTagsCount}`}
+                                            </Badge>
+                                        </span>
+                                    </TooltipTrigger>
+                                    {!tagsExpanded && (
+                                        <TooltipContent
+                                            side="top"
+                                            align="center"
+                                            sideOffset={8}
+                                        >
+                                            <p className="max-w-xs">{hiddenTagsText}</p>
+                                        </TooltipContent>
+                                    )}
+                                </Tooltip>
+                            )}
                         </div>
 
-                        {/* Favorite button */}
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={handleFavoriteClick}
-                            className={cn(
-                                "h-9 w-9 rounded-full flex-shrink-0 transition-all duration-200 group/favorite",
-                                favorite ? "text-destructive hover:text-destructive/90 hover:bg-destructive/10" : "text-muted-foreground hover:text-red-500 hover:bg-red-500/10"
-                            )}
-                            aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
-                            aria-pressed={favorite}
-                        >
-                            <Heart className={cn("h-5 w-5 transition-transform duration-200 motion-safe:group-hover/favorite:scale-110", favorite && "fill-current animate-like")} />
-                        </Button>
+                        {/* Mobile Claim Button - Inline with Tags */}
+                        <div className="sm:hidden flex-shrink-0">
+                            <ClaimButton />
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Tags and Actions Row */}
-            <div className="flex items-center justify-between gap-3 mt-3.5 pt-3.5 border-t border-border/20">
-                <div className="flex items-center gap-2 flex-wrap min-w-0 flex-1">
-                    {/* Primary category tag */}
-                    {primaryTag && (
-                        <Badge
-                            variant="secondary"
-                            className="text-xs px-2 py-1 cursor-pointer hover:bg-secondary/80 flex-shrink-0 transition-colors duration-200"
-                            onClick={(e) => handleTagClick(primaryTag, e)}
-                        >
-                            {primaryTag}
-                        </Badge>
-                    )}
+            {/* Absolute Positioned Actions */}
 
-                    {/* Location badge */}
-                    <Badge variant="outline" className="text-xs px-2 py-1 flex-shrink-0 border-border/60">
-                        <MapPin className="h-4 w-4 mr-1.5 flex-shrink-0" />
-                        <span className="truncate">{deal.location}</span>
-                    </Badge>
+            {/* Favorite button - Desktop Only (16px inset) */}
+            <div className="absolute top-4 right-4 z-20 hidden sm:block">
+                {renderFavoriteButton()}
+            </div>
 
-                    {/* Expanded tags (when toggled) */}
-                    {tagsExpanded && hiddenTags.map((tag) => (
-                        <Badge
-                            key={tag}
-                            variant="secondary"
-                            className="text-xs px-2 py-1 cursor-pointer hover:bg-secondary/80 flex-shrink-0 transition-colors duration-200"
-                            onClick={(e) => handleTagClick(tag, e)}
-                        >
-                            {tag}
-                        </Badge>
-                    ))}
-
-                    {/* Interactive +n / − chip */}
-                    {extraTagsCount > 0 && (
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <span>
-                                    <Badge
-                                        variant="outline"
-                                        className="text-xs px-2 py-1 text-muted-foreground cursor-pointer hover:bg-muted/50 hover:text-foreground transition-colors duration-200 flex-shrink-0 border-border/60"
-                                        onClick={handleTagsToggle}
-                                        onMouseEnter={handleTagsTooltipView}
-                                    >
-                                        {tagsExpanded ? `−${extraTagsCount}` : `+${extraTagsCount}`}
-                                    </Badge>
-                                </span>
-                            </TooltipTrigger>
-                            {!tagsExpanded && (
-                                <TooltipContent
-                                    side="top"
-                                    align="center"
-                                    sideOffset={8}
-                                >
-                                    <p className="max-w-xs">{hiddenTagsText}</p>
-                                </TooltipContent>
-                            )}
-                        </Tooltip>
-                    )}
-                </div>
-
-                {/* Claim Button */}
-                <div className="flex-shrink-0 flex items-center relative z-10">
-                    <ClaimButton />
-                </div>
+            {/* Claim Button - Desktop Only (Bottom Right) */}
+            <div className="absolute bottom-4 right-4 z-20 hidden sm:block">
+                <ClaimButton />
             </div>
 
             {/* Modals */}

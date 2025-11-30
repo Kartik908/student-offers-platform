@@ -11,7 +11,6 @@ import { Heart, MapPin, Info, ExternalLink } from "lucide-react";
 import { Offer } from "@/types";
 import { useFavorites } from "@/providers/FavoritesProvider";
 import { cn } from "@/lib/utils";
-import OfferDetailsModal from '@/components/offers/OfferDetailsModal';
 import RegionalOfferModal from '@/components/offers/RegionalOfferModal';
 import ExtraInfoModal from '@/components/offers/ExtraInfoModal';
 import DiscountCodeModal from '@/components/offers/DiscountCodeModal';
@@ -34,7 +33,6 @@ interface OfferCardProps {
 const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
   const favorite = isFavorite(String(deal.id));
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRegionalModalOpen, setIsRegionalModalOpen] = useState(false);
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const [isExtraInfoModalOpen, setIsExtraInfoModalOpen] = useState(false);
@@ -75,7 +73,6 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
   const useRegionalModal = deal.has_alt_links && !useCustomModal;
   const useExtraInfoModal = !useCustomModal && !useRegionalModal && (deal.has_details_modal || !!deal.extra_info);
   const useDiscountCodeModal = !useCustomModal && !useRegionalModal && !useExtraInfoModal && deal.has_discount_codes;
-  const useDetailsModal = false; // Deprecated - no longer used
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -101,13 +98,7 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
     }
   };
 
-  const openDetails = (e?: React.MouseEvent) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    setIsModalOpen(true);
-  };
+
 
   const urgencyBadge = parseUrgencyBadge(deal.urgency_badge);
 
@@ -136,11 +127,10 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
   );
   const OfferComponent = (
     <div className={cn(
-      "text-sm font-semibold px-3 rounded-lg border min-h-12 flex flex-col",
-      urgencyBadge ? "pt-1 pb-2 gap-1.5 justify-start" : "py-2 justify-center",
+      "text-sm font-semibold px-3 rounded-lg border h-12 flex flex-col py-1.5 gap-1.5 justify-start",
       getOfferBadgeClasses(deal.offer)
     )}>
-      <p ref={offerRef} className="line-clamp-2">{deal.offer}</p>
+      <p ref={offerRef} className="line-clamp-2 leading-tight">{deal.offer}</p>
       {urgencyBadge && (
         <div className="flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 md:px-4 py-0.5 bg-destructive/80 text-destructive-foreground/90 rounded-full text-[9px] sm:text-[10px] font-semibold w-full shadow-sm">
           {urgencyBadge.emoji && <span className="text-[10px] sm:text-[11px]">{urgencyBadge.emoji}</span>}
@@ -159,7 +149,7 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
     track('offer_claim_clicked', {
       offer_name: deal.name,
       offer_type: deal.github_offer ? 'github' : deal.is_hidden_gem ? 'hidden_gem' : deal.is_featured ? 'featured' : 'regular',
-      has_details: useExtraInfoModal || useDetailsModal,
+      has_details: useExtraInfoModal,
       location: deal.location,
       tags: deal.tags,
     });
@@ -225,18 +215,7 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
       );
     }
 
-    // Offers with extra details (other modals)
-    if (useDetailsModal) {
-      return (
-        <GlassClaimButton
-          label="Claim Offer"
-          onClick={() => {
-            handleClaimClick();
-            openDetails();
-          }}
-        />
-      );
-    }
+
 
     // Simple direct link offers
     return (
@@ -262,8 +241,8 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
       >
         <CardHeader className="px-4 pt-4 pb-3">
           <div className="flex justify-between items-start gap-2">
-            <div className="flex items-start gap-3 min-w-0">
-              <div className="h-12 w-12 rounded-xl border border-border/50 overflow-hidden flex items-center justify-center flex-shrink-0">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="h-12 w-12 rounded-xl border border-border/50 overflow-hidden flex items-center justify-center flex-shrink-0 bg-muted/20">
                 {deal.logo?.endsWith('.mp4') || deal.logo?.endsWith('.webm') ? (
                   <video
                     src={deal.logo}
@@ -305,25 +284,32 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
                 </div>
               </div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleFavoriteClick}
-              aria-label={favorite ? "Unsave tool" : "Save tool"}
-              className={cn(
-                "h-9 w-9 flex-shrink-0 rounded-full opacity-60 transition-all hover:opacity-100 hover:bg-transparent focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 group/favorite",
-                favorite && "opacity-100"
-              )}
-            >
-              <Heart
-                className={cn(
-                  "h-5 w-5 transition-all duration-300",
-                  favorite
-                    ? "fill-red-500 text-red-500 animate-like"
-                    : "text-muted-foreground group-hover/favorite:text-red-500 group-hover/favorite:scale-110"
-                )}
-              />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleFavoriteClick}
+                  aria-label={favorite ? "Unsave tool" : "Save tool"}
+                  className={cn(
+                    "h-9 w-9 flex-shrink-0 rounded-full opacity-60 transition-all hover:opacity-100 hover:bg-transparent focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 group/favorite",
+                    favorite && "opacity-100"
+                  )}
+                >
+                  <Heart
+                    className={cn(
+                      "h-5 w-5 transition-all duration-300",
+                      favorite
+                        ? "fill-red-500 text-red-500 animate-like"
+                        : "text-muted-foreground group-hover/favorite:text-red-500 group-hover/favorite:scale-110"
+                    )}
+                  />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{favorite ? "Unsave tool" : "Save tool"}</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
         </CardHeader>
 
@@ -353,7 +339,7 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
       {useRegionalModal && <RegionalOfferModal isOpen={isRegionalModalOpen} onClose={() => setIsRegionalModalOpen(false)} offer={deal} />}
       {useExtraInfoModal && <ExtraInfoModal isOpen={isExtraInfoModalOpen} onClose={() => setIsExtraInfoModalOpen(false)} offer={deal} />}
       {useDiscountCodeModal && <DiscountCodeModal isOpen={isDiscountCodeModalOpen} onClose={() => setIsDiscountCodeModalOpen(false)} offer={deal} />}
-      {useDetailsModal && <OfferDetailsModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} offer={deal} />}
+
     </>
   );
 };
