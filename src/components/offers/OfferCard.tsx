@@ -2,7 +2,7 @@
  * A card component to display a single student offer.
  */
 import { toast } from "sonner";
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense, lazy } from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,13 +11,15 @@ import { Heart, MapPin, Info, ExternalLink } from "lucide-react";
 import { Offer } from "@/types";
 import { useFavorites } from "@/providers/FavoritesProvider";
 import { cn } from "@/lib/utils";
-import RegionalOfferModal from '@/components/offers/RegionalOfferModal';
-import ExtraInfoModal from '@/components/offers/ExtraInfoModal';
-import DiscountCodeModal from '@/components/offers/DiscountCodeModal';
-import { CustomOfferModal } from '@/components/offers/CustomOfferModals';
 import { shouldUseCustomModal } from '@/lib/customModalConfig';
 import { track } from "@/lib/trackingManager";
 import { getOfferBadgeClasses, parseUrgencyBadge } from "@/lib/offerUtils";
+
+// Lazy load modals for code splitting
+const RegionalOfferModal = lazy(() => import('@/components/offers/RegionalOfferModal'));
+const ExtraInfoModal = lazy(() => import('@/components/offers/ExtraInfoModal'));
+const DiscountCodeModal = lazy(() => import('@/components/offers/DiscountCodeModal'));
+const CustomOfferModal = lazy(() => import('@/components/offers/CustomOfferModals').then(module => ({ default: module.CustomOfferModal })));
 
 import {
   Tooltip,
@@ -106,7 +108,7 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
     <div
       ref={nameContainerRef}
       className="marquee-container overflow-hidden whitespace-nowrap block relative"
-      style={{ '--container-width': `${containerWidth}px` } as React.CSSProperties}
+      style={{ '--container-width': `${containerWidth} px` } as React.CSSProperties}
     >
       <span
         ref={nameRef}
@@ -336,10 +338,27 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
         </CardFooter>
       </Card>
 
-      {useCustomModal && <CustomOfferModal isOpen={isCustomModalOpen} onClose={() => setIsCustomModalOpen(false)} offer={deal} />}
-      {useRegionalModal && <RegionalOfferModal isOpen={isRegionalModalOpen} onClose={() => setIsRegionalModalOpen(false)} offer={deal} />}
-      {useExtraInfoModal && <ExtraInfoModal isOpen={isExtraInfoModalOpen} onClose={() => setIsExtraInfoModalOpen(false)} offer={deal} />}
-      {useDiscountCodeModal && <DiscountCodeModal isOpen={isDiscountCodeModalOpen} onClose={() => setIsDiscountCodeModalOpen(false)} offer={deal} />}
+
+      {useCustomModal && (
+        <Suspense fallback={null}>
+          <CustomOfferModal isOpen={isCustomModalOpen} onClose={() => setIsCustomModalOpen(false)} offer={deal} />
+        </Suspense>
+      )}
+      {useRegionalModal && (
+        <Suspense fallback={null}>
+          <RegionalOfferModal isOpen={isRegionalModalOpen} onClose={() => setIsRegionalModalOpen(false)} offer={deal} />
+        </Suspense>
+      )}
+      {useExtraInfoModal && (
+        <Suspense fallback={null}>
+          <ExtraInfoModal isOpen={isExtraInfoModalOpen} onClose={() => setIsExtraInfoModalOpen(false)} offer={deal} />
+        </Suspense>
+      )}
+      {useDiscountCodeModal && (
+        <Suspense fallback={null}>
+          <DiscountCodeModal isOpen={isDiscountCodeModalOpen} onClose={() => setIsDiscountCodeModalOpen(false)} offer={deal} />
+        </Suspense>
+      )}
 
     </>
   );

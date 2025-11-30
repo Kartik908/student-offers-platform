@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense, lazy } from "react";
 import { Offer } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,14 +7,16 @@ import { Heart, MapPin } from "lucide-react";
 import { useFavorites } from "@/providers/FavoritesProvider";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import RegionalOfferModal from "@/components/offers/RegionalOfferModal";
-import ExtraInfoModal from "@/components/offers/ExtraInfoModal";
-import DiscountCodeModal from "@/components/offers/DiscountCodeModal";
-import { CustomOfferModal } from "@/components/offers/CustomOfferModals";
 import { shouldUseCustomModal } from "@/lib/customModalConfig";
 import { getOfferBadgeClasses } from "@/lib/offerUtils";
 import { trackOfferViewed, trackButtonClick, track } from "@/lib/trackingManager";
 import { hasRegionalOffers } from "@/lib/regionalOffers";
+
+// Lazy load modals for code splitting
+const RegionalOfferModal = lazy(() => import("@/components/offers/RegionalOfferModal"));
+const ExtraInfoModal = lazy(() => import("@/components/offers/ExtraInfoModal"));
+const DiscountCodeModal = lazy(() => import("@/components/offers/DiscountCodeModal"));
+const CustomOfferModal = lazy(() => import("@/components/offers/CustomOfferModals").then(module => ({ default: module.CustomOfferModal })));
 import {
     Tooltip,
     TooltipContent,
@@ -414,10 +416,26 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
             </div>
 
             {/* Modals */}
-            {useCustomModal && <CustomOfferModal isOpen={isCustomModalOpen} onClose={() => setIsCustomModalOpen(false)} offer={deal} />}
-            {isRegionalOffer && <RegionalOfferModal isOpen={isRegionalModalOpen} onClose={() => setIsRegionalModalOpen(false)} offer={deal} />}
-            {useExtraInfoModal && <ExtraInfoModal isOpen={isExtraInfoModalOpen} onClose={() => setIsExtraInfoModalOpen(false)} offer={deal} />}
-            {useDiscountCodeModal && <DiscountCodeModal isOpen={isDiscountCodeModalOpen} onClose={() => setIsDiscountCodeModalOpen(false)} offer={deal} />}
+            {useCustomModal && (
+                <Suspense fallback={null}>
+                    <CustomOfferModal isOpen={isCustomModalOpen} onClose={() => setIsCustomModalOpen(false)} offer={deal} />
+                </Suspense>
+            )}
+            {isRegionalOffer && (
+                <Suspense fallback={null}>
+                    <RegionalOfferModal isOpen={isRegionalModalOpen} onClose={() => setIsRegionalModalOpen(false)} offer={deal} />
+                </Suspense>
+            )}
+            {useExtraInfoModal && (
+                <Suspense fallback={null}>
+                    <ExtraInfoModal isOpen={isExtraInfoModalOpen} onClose={() => setIsExtraInfoModalOpen(false)} offer={deal} />
+                </Suspense>
+            )}
+            {useDiscountCodeModal && (
+                <Suspense fallback={null}>
+                    <DiscountCodeModal isOpen={isDiscountCodeModalOpen} onClose={() => setIsDiscountCodeModalOpen(false)} offer={deal} />
+                </Suspense>
+            )}
         </motion.div>
     );
 };

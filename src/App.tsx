@@ -15,6 +15,7 @@ import { FavoritesProvider } from "./providers/FavoritesProvider";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import ScrollToTop from "./components/utils/ScrollToTop";
 import { ModalProvider } from "./providers/ModalProvider";
+import { useDeferredAnalytics } from "./hooks/useDeferredAnalytics";
 
 import { InitialLoader } from "./components/layout/InitialLoader";
 
@@ -71,6 +72,7 @@ const AppContent = () => {
   const [isInitializing, setIsInitializing] = useState(true);
   const [showContent, setShowContent] = useState(false);
   const posthog = usePostHog();
+  const analyticsReady = useDeferredAnalytics();
 
   useEffect(() => {
     const initializeApp = async () => {
@@ -126,8 +128,13 @@ const AppContent = () => {
       enableSystem={true}
       disableTransitionOnChange={false}
     >
-      <Analytics />
-      <SpeedInsights />
+      {/* Defer analytics until page is interactive */}
+      {analyticsReady && (
+        <>
+          <Analytics />
+          <SpeedInsights />
+        </>
+      )}
       <div className={`transition-opacity duration-300 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
         <TooltipProvider>
           <Sonner />
