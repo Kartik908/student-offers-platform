@@ -49,14 +49,7 @@ export default defineConfig({
   },
   build: {
     sourcemap: false,
-    minify: 'terser', // Use terser for better compression than esbuild
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console.logs in production
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.debug'],
-      },
-    },
+    minify: 'esbuild', // Use esbuild (already installed, no extra dependency)
     cssCodeSplit: true,
     target: 'es2020',
     chunkSizeWarningLimit: 500, // Stricter limit to encourage smaller chunks
