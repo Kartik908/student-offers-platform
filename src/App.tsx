@@ -76,15 +76,21 @@ const AppContent = () => {
 
   useEffect(() => {
     const initializeApp = async () => {
-      // Ensure minimum loading time for smooth experience
-      const minLoadTime = new Promise(resolve => setTimeout(resolve, 1500));
+      // Reduced minimum loading time for better LCP (was 1500ms)
+      const minLoadTime = new Promise(resolve => setTimeout(resolve, 500));
       const fontReady = typeof document !== 'undefined' ? document.fonts.ready : Promise.resolve();
 
+      // Failsafe timeout to prevent stuck loading (max 5 seconds)
+      const failsafeTimeout = new Promise(resolve => setTimeout(resolve, 5000));
+
       try {
-        await Promise.all([
-          preloadCriticalData(),
-          minLoadTime,
-          fontReady
+        await Promise.race([
+          Promise.all([
+            preloadCriticalData(),
+            minLoadTime,
+            fontReady
+          ]),
+          failsafeTimeout // Ensure we don't wait forever
         ]);
 
       } catch (error) {
