@@ -127,7 +127,8 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
   );
   const OfferComponent = (
     <div className={cn(
-      "text-sm font-semibold px-3 rounded-lg border h-12 flex flex-col py-1.5 gap-1.5 justify-start",
+      "text-sm font-semibold px-3 rounded-lg border flex flex-col py-1.5 gap-1.5 justify-start",
+      urgencyBadge ? "h-16" : "h-12",
       getOfferBadgeClasses(deal.offer)
     )}>
       <p ref={offerRef} className="line-clamp-2 leading-tight">{deal.offer}</p>
