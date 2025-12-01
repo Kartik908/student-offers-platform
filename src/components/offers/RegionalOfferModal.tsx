@@ -6,7 +6,7 @@ import { Copy, ArrowUpRight, Globe, Info } from "lucide-react";
 import { Offer, AltLinkDetails } from "@/types";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
+
 import VerticalListModal from "./VerticalListModal";
 
 interface RegionalOfferModalProps {
@@ -276,244 +276,193 @@ export default function RegionalOfferModal({ offer, isOpen, onClose }: RegionalO
 
   // Pill layout for fewer regions or multiple offers per region
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-          <DialogContent className="sm:max-w-2xl max-h-[85vh] p-0 gap-0">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 8 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 8 }}
-              transition={{
-                duration: 0.2,
-                ease: [0.16, 1, 0.3, 1],
-                type: "tween"
-              }}
-            >
-              <DialogHeader className="px-6 pt-6 pb-4 space-y-1">
-                <DialogTitle className="text-xl font-semibold">
-                  Claim: {offer.name}
-                </DialogTitle>
-                <p className="text-sm text-muted-foreground">
-                  Select your country to view the specific student offer available.
-                </p>
-              </DialogHeader>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-2xl max-h-[85vh] p-0 gap-0">
+        <div className="animate-fade-in-up">
+          <DialogHeader className="px-6 pt-6 pb-4 space-y-1">
+            <DialogTitle className="text-xl font-semibold">
+              Claim: {offer.name}
+            </DialogTitle>
+            <p className="text-sm text-muted-foreground">
+              Select your country to view the specific student offer available.
+            </p>
+          </DialogHeader>
 
-              {/* Divider */}
-              <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
+          {/* Divider */}
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
 
-              <motion.div
-                className="px-6 py-5 space-y-4"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.3 }}
-              >
-                {/* Country Selection Pills */}
-                <div className="flex flex-wrap gap-2">
-                  {availableCountries.map((countryCode, index) => {
-                    const isSelected = selectedCountry === countryCode;
+          <div className="px-6 py-5 space-y-4 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+            {/* Country Selection Pills */}
+            <div className="flex flex-wrap gap-2">
+              {availableCountries.map((countryCode, index) => {
+                const isSelected = selectedCountry === countryCode;
 
-                    // Get flag from alt_links data if available
-                    const countryData = offer.alt_links?.[countryCode];
-                    let dataFlag: string | undefined;
-                    if (typeof countryData === 'object' && countryData !== null && !Array.isArray(countryData) && 'flag' in countryData) {
-                      dataFlag = countryData.flag || undefined;
-                    }
+                // Get flag from alt_links data if available
+                const countryData = offer.alt_links?.[countryCode];
+                let dataFlag: string | undefined;
+                if (typeof countryData === 'object' && countryData !== null && !Array.isArray(countryData) && 'flag' in countryData) {
+                  dataFlag = countryData.flag || undefined;
+                }
 
-                    const flag = dataFlag || COUNTRY_FLAGS[countryCode] || '🌍';
-                    const countryName = COUNTRY_NAMES[countryCode] || countryCode;
+                const flag = dataFlag || COUNTRY_FLAGS[countryCode] || '🌍';
+                const countryName = COUNTRY_NAMES[countryCode] || countryCode;
 
-                    return (
-                      <motion.button
-                        key={countryCode}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{
-                          delay: 0.15 + (index * 0.03),
-                          duration: 0.2,
-                          ease: [0.16, 1, 0.3, 1]
-                        }}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setSelectedCountry(countryCode)}
-                        className={cn(
-                          "flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-200 font-medium text-sm",
-                          isSelected
-                            ? "ring-2 ring-primary bg-accent/50 border-primary/50"
-                            : "border-border bg-card/50 hover:bg-accent/30 hover:border-border/80"
-                        )}
-                      >
-                        <span className="text-lg leading-none">{flag}</span>
-                        <span className="leading-none">{countryName}</span>
-                      </motion.button>
-                    );
-                  })}
-                </div>
-
-                {/* Selected Offer Details Card */}
-                <AnimatePresence mode="wait">
-                  {selectedCountry && currentOffer && (
-                    <motion.div
-                      key={selectedCountry}
-                      initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                      transition={{
-                        duration: 0.25,
-                        ease: [0.16, 1, 0.3, 1]
-                      }}
-                      className="bg-muted/30 rounded-xl p-5 border border-border/50"
-                    >
-                      <p className="text-sm text-foreground/90 leading-relaxed">
-                        {currentOffer.offer_text}
-                      </p>
-
-                      {currentOffer.pricing && (
-                        <p className="text-xs text-muted-foreground/70 mt-1.5 italic break-words">
-                          {linkifyText(currentOffer.pricing)}
-                        </p>
-                      )}
-
-                      {/* Discount Code Section */}
-                      {currentOffer.discount_code && (
-                        <div className="flex items-center gap-2 mt-1.5">
-                          <p className="text-xs text-muted-foreground">
-                            <span className="font-medium text-foreground">Code:</span>
-                            {' '}
-                            <span className="font-mono bg-muted/80 px-2 py-0.5 rounded text-primary font-medium border border-border/50">
-                              {currentOffer.discount_code}
-                            </span>
-                          </p>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={handleCopyCode}
-                            className="h-6 w-6 p-0 text-muted-foreground hover:text-primary transition-colors hover:bg-transparent"
-                          >
-                            <Copy className="w-3 h-3" />
-                          </Button>
-                          <AnimatePresence>
-                            {copied && (
-                              <motion.span
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.9 }}
-                                transition={{ duration: 0.15 }}
-                                className="text-xs text-green-400 font-medium"
-                              >
-                                Copied!
-                              </motion.span>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      )}
-
-                      {/* Additional Requirements */}
-                      {currentOffer.requirements && (
-                        <p className="text-xs text-muted-foreground mt-1.5">
-                          <span className="font-medium text-foreground">Requirements:</span> {currentOffer.requirements}
-                        </p>
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* No Selection State */}
-                {!selectedCountry && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2, duration: 0.3 }}
-                    className="bg-muted/30 rounded-xl p-4 border border-dashed border-border"
+                return (
+                  <button
+                    key={countryCode}
+                    onClick={() => setSelectedCountry(countryCode)}
+                    className={cn(
+                      "flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-200 font-medium text-sm hover:scale-105 active:scale-95",
+                      isSelected
+                        ? "ring-2 ring-primary bg-accent/50 border-primary/50"
+                        : "border-border bg-card/50 hover:bg-accent/30 hover:border-border/80"
+                    )}
                   >
-                    <p className="text-sm text-muted-foreground text-center">
-                      Please select a country above to view available offers.
-                    </p>
-                  </motion.div>
+                    <span className="text-lg leading-none">{flag}</span>
+                    <span className="leading-none">{countryName}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Selected Offer Details Card */}
+            {selectedCountry && currentOffer && (
+              <div
+                key={selectedCountry}
+                className="bg-muted/30 rounded-xl p-5 border border-border/50 animate-fade-in-up"
+              >
+                <p className="text-sm text-foreground/90 leading-relaxed">
+                  {currentOffer.offer_text}
+                </p>
+
+                {currentOffer.pricing && (
+                  <p className="text-xs text-muted-foreground/70 mt-1.5 italic break-words">
+                    {linkifyText(currentOffer.pricing)}
+                  </p>
                 )}
 
-              </motion.div>
+                {/* Discount Code Section */}
+                {currentOffer.discount_code && (
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <p className="text-xs text-muted-foreground">
+                      <span className="font-medium text-foreground">Code:</span>
+                      {' '}
+                      <span className="font-mono bg-muted/80 px-2 py-0.5 rounded text-primary font-medium border border-border/50">
+                        {currentOffer.discount_code}
+                      </span>
+                    </p>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={handleCopyCode}
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-primary transition-colors hover:bg-transparent"
+                    >
+                      <Copy className="w-3 h-3" />
+                    </Button>
+                    {copied && (
+                      <span className="text-xs text-green-400 font-medium animate-fade-in-up">
+                        Copied!
+                      </span>
+                    )}
+                  </div>
+                )}
 
-              {/* Important Notes Section */}
-              {offer.extra_info && (() => {
-                try {
-                  const extraInfo = JSON.parse(offer.extra_info);
-                  const importantNotes = extraInfo.important_notes || [];
+                {/* Additional Requirements */}
+                {currentOffer.requirements && (
+                  <p className="text-xs text-muted-foreground mt-1.5">
+                    <span className="font-medium text-foreground">Requirements:</span> {currentOffer.requirements}
+                  </p>
+                )}
+              </div>
+            )}
 
-                  if (importantNotes.length > 0) {
-                    return (
-                      <>
-                        {/* Divider */}
-                        <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
-
-                        {/* Important Notes - Full Width */}
-                        <div className="px-6 py-3">
-                          <div className="border border-primary/20 rounded-lg p-4 bg-primary/5">
-                            <div className="flex items-center gap-2 mb-2">
-                              <Info className="h-3.5 w-3.5 text-primary flex-shrink-0" />
-                              <h3 className="text-xs font-semibold text-primary">Important Notes</h3>
-                            </div>
-                            {importantNotes.map((note: { text?: string; link_url?: string; link_label?: string }, index: number) => (
-                              <p key={index} className="text-[11px] text-foreground/70 leading-relaxed w-full break-words mb-1 last:mb-0 max-w-none">
-                                {note.text}
-                                {note.link_url && note.link_label && (
-                                  <>
-                                    {' '}
-                                    <a
-                                      href={note.link_url}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="text-primary hover:underline font-medium"
-                                      onClick={(e) => e.stopPropagation()}
-                                    >
-                                      {note.link_label}
-                                    </a>
-                                  </>
-                                )}
-                              </p>
-                            ))}
-                          </div>
-                        </div>
-                      </>
-                    );
-                  }
-                } catch (e) {
-                  // Silently fail if extra_info is not valid JSON
-                  return null;
-                }
-                return null;
-              })()}
-
-              {/* Divider */}
-              <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
-
-              {/* Footer */}
-              <motion.div
-                className="flex justify-end gap-3 p-4"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25, duration: 0.3 }}
+            {/* No Selection State */}
+            {!selectedCountry && (
+              <div
+                className="bg-muted/30 rounded-xl p-4 border border-dashed border-border animate-fade-in-up"
+                style={{ animationDelay: '200ms' }}
               >
-                <Button
-                  variant="secondary"
-                  onClick={onClose}
-                  className="bg-card/50 hover:bg-card/70 border border-border"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleContinueToOffer}
-                  disabled={!currentOffer?.url}
-                  className="min-w-[140px] group"
-                >
-                  Continue to Offer
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </Button>
-              </motion.div>
-            </motion.div>
-          </DialogContent>
-        </Dialog>
-      )}
-    </AnimatePresence>
+                <p className="text-sm text-muted-foreground text-center">
+                  Please select a country above to view available offers.
+                </p>
+              </div>
+            )}
+
+          </div>
+
+          {/* Important Notes Section */}
+          {offer.extra_info && (() => {
+            try {
+              const extraInfo = JSON.parse(offer.extra_info);
+              const importantNotes = extraInfo.important_notes || [];
+
+              if (importantNotes.length > 0) {
+                return (
+                  <>
+                    {/* Divider */}
+                    <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
+
+                    {/* Important Notes - Full Width */}
+                    <div className="px-6 py-3">
+                      <div className="border border-primary/20 rounded-lg p-4 bg-primary/5">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Info className="h-3.5 w-3.5 text-primary flex-shrink-0" />
+                          <h3 className="text-xs font-semibold text-primary">Important Notes</h3>
+                        </div>
+                        {importantNotes.map((note: { text?: string; link_url?: string; link_label?: string }, index: number) => (
+                          <p key={index} className="text-[11px] text-foreground/70 leading-relaxed w-full break-words mb-1 last:mb-0 max-w-none">
+                            {note.text}
+                            {note.link_url && note.link_label && (
+                              <>
+                                {' '}
+                                <a
+                                  href={note.link_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary hover:underline font-medium"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  {note.link_label}
+                                </a>
+                              </>
+                            )}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                );
+              }
+            } catch (e) {
+              // Silently fail if extra_info is not valid JSON
+              return null;
+            }
+            return null;
+          })()}
+
+          {/* Divider */}
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent" />
+
+          {/* Footer */}
+          <div className="flex justify-end gap-3 p-4 animate-fade-in-up" style={{ animationDelay: '250ms' }}>
+            <Button
+              variant="secondary"
+              onClick={onClose}
+              className="bg-card/50 hover:bg-card/70 border border-border"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleContinueToOffer}
+              disabled={!currentOffer?.url}
+              className="min-w-[140px] group"
+            >
+              Continue to Offer
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

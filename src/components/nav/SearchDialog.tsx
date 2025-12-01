@@ -146,8 +146,8 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
         <Dialog open={open} onOpenChange={(newOpen) => {
             onOpenChange(newOpen);
         }}>
-            <DialogContent className="w-[92%] max-w-[640px] sm:max-w-2xl max-h-[90vh] overflow-hidden p-0 gap-0 [&>button]:hidden rounded-lg shadow-lg sm:shadow-xl">
-                <div className="flex items-center border-b px-3 relative">
+            <DialogContent className="w-full h-[100dvh] sm:h-auto sm:max-w-2xl p-0 gap-0 [&>button]:hidden rounded-none sm:rounded-lg shadow-none sm:shadow-xl top-0 translate-y-0 sm:top-[50%] sm:translate-y-[-50%] data-[state=open]:slide-in-from-top-[0%] sm:data-[state=open]:slide-in-from-top-[48%] border-0 sm:border">
+                <div className="flex items-center border-b px-3 relative py-2 sm:py-0">
                     <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                     <Input
                         placeholder="Search for tools, categories, or filters..."
@@ -280,7 +280,7 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
                                 setSelectedIndex(-1);
                             }
                         }}
-                        className="flex h-10 w-full border-0 bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 pr-8"
+                        className="flex h-12 sm:h-10 w-full border-0 bg-transparent py-2 text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 pr-8"
                         autoFocus
                     />
                     <CloseButton
@@ -291,7 +291,7 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
                         ariaLabel="Close search"
                     />
                     {selectedIndex >= 0 && (
-                        <div className="absolute right-10 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+                        <div className="absolute right-10 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hidden sm:block">
                             ↑↓ navigate • ↵ select • esc close
                         </div>
                     )}
@@ -299,7 +299,7 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
                 <div
                     ref={scrollContainerRef}
                     id="search-listbox"
-                    className="max-h-[300px] overflow-y-auto scroll-smooth"
+                    className="flex-1 overflow-y-auto scroll-smooth"
                     style={{ scrollPaddingTop: '0px', scrollPaddingBottom: '12px' }}
                     role="listbox"
                     aria-label="Search results"

@@ -89,31 +89,9 @@ const SiteHeader = () => {
           </div>
 
           {/* Actions cluster - compact on mobile */}
+          {/* Actions cluster - compact on mobile */}
           <div className="flex items-center gap-2 md:gap-3">
-            {/* Theme toggle and favorites with compact spacing */}
-            <ThemeToggle />
-            <NavLink
-              to="/favorites"
-              className="flex items-center justify-center w-12 h-12 sm:w-11 sm:h-11"
-              onClick={() => trackNavigation(location.pathname, '/favorites')}
-            >
-              <Button
-                variant="outline"
-                size="icon"
-                aria-label={`Favorites (${favorites.length})`}
-                className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 relative min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px]"
-              >
-                <Heart className="h-4 w-4 sm:h-5 sm:w-5 stroke-[1.5]" />
-                {favorites.length > 0 && (
-                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs font-medium flex items-center justify-center min-w-[20px]">
-                    {favorites.length > 99 ? '99+' : favorites.length}
-                  </span>
-                )}
-                <span className="sr-only">Favorites ({favorites.length})</span>
-              </Button>
-            </NavLink>
-
-            {/* Mobile search */}
+            {/* Mobile search - First for easy access */}
             <Button
               variant="outline"
               size="icon"
@@ -126,16 +104,41 @@ const SiteHeader = () => {
               }}
               aria-label="Open search"
             >
-              <Search className="h-4 w-4 sm:h-5 sm:w-5 stroke-[1.5]" />
+              <Search className="h-5 w-5 stroke-[1.5]" />
               <span className="sr-only">Search</span>
             </Button>
+
+            {/* Favorites - Second priority */}
+            <NavLink
+              to="/favorites"
+              className="flex items-center justify-center w-12 h-12 sm:w-11 sm:h-11"
+              onClick={() => trackNavigation(location.pathname, '/favorites')}
+            >
+              <Button
+                variant="outline"
+                size="icon"
+                aria-label={`Favorites (${favorites.length})`}
+                className="h-12 w-12 sm:h-11 sm:w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 relative min-h-[48px] min-w-[48px] sm:min-h-[44px] sm:min-w-[44px]"
+              >
+                <Heart className="h-5 w-5 stroke-[1.5]" />
+                {favorites.length > 0 && (
+                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs font-medium flex items-center justify-center min-w-[20px]">
+                    {favorites.length > 99 ? '99+' : favorites.length}
+                  </span>
+                )}
+                <span className="sr-only">Favorites ({favorites.length})</span>
+              </Button>
+            </NavLink>
+
+            {/* Theme toggle - Third priority */}
+            <ThemeToggle />
 
             {/* Submit button - solid brand blue, proper sizing */}
             <Button
               onClick={openSubmitOfferModal}
-              className="h-10 sm:h-12 rounded-lg px-4 sm:px-5 flex items-center gap-2 font-medium text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="h-12 sm:h-12 rounded-lg px-4 sm:px-5 flex items-center gap-2 font-medium text-sm sm:text-base focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 min-h-[48px]"
             >
-              <Plus className="h-4 w-4 stroke-[1.5]" />
+              <Plus className="h-5 w-5 stroke-[1.5]" />
               <span>Submit</span>
             </Button>
           </div>

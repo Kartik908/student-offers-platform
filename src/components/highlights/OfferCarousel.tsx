@@ -2,7 +2,6 @@
  * A horizontal scrolling carousel for displaying offers.
  */
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
 import { Offer } from "@/types";
 import OfferCard from "@/components/offers/OfferCard";
 import { Button } from '@/components/ui/button';
@@ -80,29 +79,19 @@ const OfferCarousel = ({ title, subtitle, offers, seeAllLink, seeAllText }: Offe
         <div ref={scrollContainerRef} className="overflow-x-auto no-scrollbar py-2">
           <div className="flex gap-6 pl-4 sm:pl-6 md:pl-10 lg:pl-20 pr-4 sm:pr-6 md:pr-10 lg:pr-20">
             {offers.map((offer, index) => (
-              <motion.div
+              <div
                 key={offer.id}
                 className="w-[280px] sm:w-[300px] flex-shrink-0"
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  duration: 0.4,
-                  delay: index * 0.1,
-                  ease: [0.4, 0, 0.2, 1]
-                }}
               >
                 <OfferCard deal={offer} />
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </div>
 
-      <motion.div
+      <div
         className="container mt-6 flex items-center justify-end gap-4"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.2 }}
       >
         {seeAllLink && (
           <TooltipProvider>
@@ -145,7 +134,7 @@ const OfferCarousel = ({ title, subtitle, offers, seeAllLink, seeAllText }: Offe
             <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

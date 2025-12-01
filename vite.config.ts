@@ -73,7 +73,7 @@ export default defineConfig({
           // Data & State
           'data': ['@tanstack/react-query', '@supabase/supabase-js'],
           // Animation & Motion
-          'motion': ['framer-motion'],
+
           // Utilities
           'utils': ['fuse.js', 'clsx', 'tailwind-merge'],
         },

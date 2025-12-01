@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Info } from "lucide-react";
 import { Offer, AltLinkDetails } from "@/types";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 
 interface VerticalListModalProps {
   isOpen: boolean;
@@ -178,22 +177,16 @@ export default function VerticalListModal({ isOpen, onClose, offer }: VerticalLi
             const isSelected = selectedCountry === countryCode;
 
             return (
-              <motion.div
+              <div
                 key={countryCode}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.05 + (index * 0.02),
-                  duration: 0.2,
-                  ease: [0.16, 1, 0.3, 1]
-                }}
                 onClick={() => setSelectedCountry(countryCode)}
                 className={cn(
-                  "border rounded-xl p-4 cursor-pointer transition-all duration-200",
+                  "border rounded-xl p-4 cursor-pointer transition-all duration-200 animate-fade-in-up",
                   isSelected
                     ? "ring-2 ring-primary bg-accent/50 border-primary/50"
                     : "border-border bg-card/50 hover:bg-accent/30 hover:border-border/80"
                 )}
+                style={{ animationDelay: `${index * 50}ms` }}
               >
                 <h3 className="text-sm font-semibold flex items-center gap-2 mb-1.5">
                   <span className="text-lg">{flag}</span>
@@ -220,9 +213,10 @@ export default function VerticalListModal({ isOpen, onClose, offer }: VerticalLi
                     <span className="font-medium text-foreground">Requirements:</span> {offerData.requirements}
                   </p>
                 )}
-              </motion.div>
+              </div>
             );
           })}
+
         </div>
 
         {/* Important Notes Section */}

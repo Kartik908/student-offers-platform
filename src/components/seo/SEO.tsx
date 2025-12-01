@@ -15,7 +15,7 @@ export function SEO({
     description,
     canonical,
     keywords,
-    image = 'https://studentoffers.co/og-image.png',
+    image = 'https://studentoffers.co/og-image.png?v=2',
     type = 'website',
     structuredData
 }: SEOProps) {

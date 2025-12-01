@@ -31,7 +31,9 @@ import { useOffers } from "@/providers/OffersProvider";
 import { Button } from "@/components/ui/button";
 import { Offer } from "@/types";
 import SuggestedOffers from "@/components/offers/SuggestedOffers";
-import GitHubPackStickyBar from "@/components/promo/GitHubPackStickyBar";
+// Lazy load the sticky bar to save initial bundle size
+import { lazy, Suspense } from "react";
+const GitHubPackStickyBar = lazy(() => import("@/components/promo/GitHubPackStickyBar"));
 import { cn } from "@/lib/utils";
 import { OfferGridLoadingState } from "@/components/offers/OfferGridLoadingState";
 import { ContentEmptyState } from "@/components/common";
@@ -389,7 +391,9 @@ const AllTools = () => {
           </div>
         )}
       </div>
-      <GitHubPackStickyBar isActive={isGitHubCategory} />
+      <Suspense fallback={null}>
+        <GitHubPackStickyBar isActive={isGitHubCategory} />
+      </Suspense>
     </div >
   );
 };

@@ -70,15 +70,13 @@ const PageTracker = () => {
 };
 
 const AppContent = () => {
-  const [isInitializing, setIsInitializing] = useState(true);
+  // Start false to render immediately
+  const [isInitializing, setIsInitializing] = useState(false);
   const posthog = usePostHog();
   const analyticsReady = useDeferredAnalytics();
 
   useEffect(() => {
     const initializeApp = async () => {
-      // Show content immediately - no delays
-      setIsInitializing(false);
-
       try {
         // Preload data in background
         preloadCriticalData().catch(err => console.error('Preload failed:', err));
@@ -104,11 +102,8 @@ const AppContent = () => {
     initializeApp();
   }, [posthog]);
 
+  // Removed blocking loader check to prevent blink
 
-
-  if (isInitializing) {
-    return <InitialLoader />;
-  }
 
   return (
     <ThemeProvider
