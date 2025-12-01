@@ -6,7 +6,6 @@ import { GlassClaimButton } from "@/components/ui/glass-claim-button";
 import { Heart, MapPin } from "lucide-react";
 import { useFavorites } from "@/providers/FavoritesProvider";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { shouldUseCustomModal } from "@/lib/customModalConfig";
 import { getOfferBadgeClasses } from "@/lib/offerUtils";
 import { trackOfferViewed, trackButtonClick, track } from "@/lib/trackingManager";
@@ -258,9 +257,8 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
     );
 
     return (
-        <motion.div
+        <div
             ref={itemRef}
-            layout
             className={cn(
                 "group bg-card border rounded-2xl shadow-md hover:shadow-xl hover:border-primary/30 hover:bg-accent/30 transition-all duration-200 flex flex-col relative hover:z-20 motion-safe:hover:-translate-y-1",
                 "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
@@ -436,7 +434,7 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
                     <DiscountCodeModal isOpen={isDiscountCodeModalOpen} onClose={() => setIsDiscountCodeModalOpen(false)} offer={deal} />
                 </Suspense>
             )}
-        </motion.div>
+        </div>
     );
 };
 

@@ -9,14 +9,14 @@
   <!-- OPTIMIZED: 53 Characters. 
        Re-added "Best" because "Best Student Discounts" is a massive search term. 
        Fits perfectly within Google's 60-char limit. -->
-  <title>Student Offers | Best Verified Student Discounts 2025</title>
+  <title>Student Offers | Verified Student Discounts & Perks (2025)</title>
   <link rel="canonical" href="https://studentoffers.co/" />
 
   <!-- DESCRIPTION: Mixes PRIMARY, VALUE-BASED, and PRODUCT-SPECIFIC keywords.
        145 Characters. Perfect length. 
        Combines "Curated" (Quality) with "Directory" (Quantity) for maximum authority. -->
   <meta name="description"
-    content="The #1 curated student discount directory. Access $5k+ in verified offers for GitHub, Notion, Adobe & Spotify. Legit 2025 deals without the spam." />
+    content="Discover verified student discounts across Tech, AI, Fashion & Travel. Save on GitHub, Notion, Spotify, Nike + many others — all with your .edu email." />
 
   <!-- KEYWORDS: A comprehensive mix of your provided lists. -->
   <meta name="keywords"
@@ -29,18 +29,18 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://studentoffers.co/" />
 
-  <meta property="og:title" content="Student Offers | Best Verified Student Discounts 2025" />
+  <meta property="og:title" content="Student Offers | Verified Student Discounts & Perks (2025)" />
   <meta property="og:description"
-    content="The #1 curated student discount directory. Access $5k+ in verified offers for GitHub, Notion, Adobe & Spotify. Legit 2025 deals without the spam." />
+    content="Discover verified student discounts across Tech, AI, Fashion & Travel. Save on GitHub, Notion, Spotify, Nike + many others — all with your .edu email." />
   <meta property="og:image" content="https://studentoffers.co/og-image.png" />
   <meta property="og:site_name" content="Student Offers" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://studentoffers.co/" />
-  <meta property="twitter:title" content="Student Offers | Best Verified Student Discounts 2025" />
+  <meta property="twitter:title" content="Student Offers | Verified Student Discounts & Perks (2025)" />
   <meta property="twitter:description"
-    content="The #1 curated student discount directory. Access $5k+ in verified offers for GitHub, Notion, Adobe & Spotify. Legit 2025 deals without the spam." />
+    content="Discover verified student discounts across Tech, AI, Fashion & Travel. Save on GitHub, Notion, Spotify, Nike + many others — all with your .edu email." />
   <meta property="twitter:image" content="https://studentoffers.co/og-image.png" />
 
   <!-- Performance & Compatibility -->
@@ -55,8 +55,38 @@
   <link rel="dns-prefetch" href="https://abcbkvmdcebbkgovip.supabase.co" />
   <link rel="preconnect" href="https://abcbkvmdcebbkgovip.supabase.co" crossorigin />
 
-  <!-- Preload critical fonts (if using Google Fonts or custom fonts) -->
-  <!-- <link rel="preload" as="font" type="font/woff2" href="/fonts/inter.woff2" crossorigin /> -->
+  <!-- Font Optimization: Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Critical CSS: Inline styles for above-the-fold content -->
+  <style>
+    /* Critical styles for Hero section - improves LCP */
+    .hero-gradient {
+      background-image: radial-gradient(100% 100% at 50% 0%, #e8f2ff 0%, #f8fafc 100%);
+    }
+
+    .dark .hero-gradient {
+      background-image: radial-gradient(100% 100% at 50% 0%, hsl(221 68% 33%) 0%, hsl(0 0% 9%) 100%);
+    }
+
+    .hero-heading {
+      font-size: clamp(2.25rem, 4vw + 1rem, 4.5rem);
+      line-height: 1.03 !important;
+      word-spacing: 0.05em;
+      letter-spacing: -0.025em;
+    }
+
+    /* Prevent layout shift */
+    body {
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    #root {
+      min-height: 100vh;
+    }
+  </style>
 
   <!-- Favicon -->
   <link rel="icon" href="/Favicon.svg" type="image/svg+xml" />
@@ -109,7 +139,7 @@
           "@type": "WebSite",
           "name": "Student Offers",
           "url": "https://studentoffers.co/",
-          "description": "The best place to find verified student discounts for developer tools, design software, and productivity apps.",
+          "description": "Discover verified student discounts across Tech, AI, Fashion & Travel. Save on GitHub, Notion, Spotify, Nike + many others — all with your .edu email.",
           "potentialAction": {
             "@type": "SearchAction",
             "target": "https://studentoffers.co/tools?search={search_term_string}",
@@ -128,6 +158,15 @@
       ]
     }
   </script>
+
+  <!-- Load fonts with font-display: swap for better performance -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    as="style">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  </noscript>
 </head>
 
 <body>

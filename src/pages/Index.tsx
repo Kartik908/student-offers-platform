@@ -85,7 +85,7 @@ const Index = () => {
     <main className="flex flex-col">
       <SEO
         title="Student Offers"
-        description="The #1 curated student discount directory. Access $5k+ in verified offers for GitHub, Notion, Adobe & Spotify. Legit 2025 deals without the spam."
+        description="Discover verified student discounts across Tech, AI, Fashion & Travel. Save on GitHub, Notion, Spotify, Nike + many others — all with your .edu email."
         canonical="https://studentoffers.co/"
         structuredData={structuredData}
       />

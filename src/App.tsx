@@ -70,33 +70,26 @@ const PageTracker = () => {
 
 const AppContent = () => {
   const [isInitializing, setIsInitializing] = useState(true);
-  const [showContent, setShowContent] = useState(false);
   const posthog = usePostHog();
   const analyticsReady = useDeferredAnalytics();
 
   useEffect(() => {
     const initializeApp = async () => {
-      // Reduced minimum loading time for better LCP (was 1500ms)
-      const minLoadTime = new Promise(resolve => setTimeout(resolve, 500));
+      // Wait only for fonts to be ready - no artificial delays
       const fontReady = typeof document !== 'undefined' ? document.fonts.ready : Promise.resolve();
 
-      // Failsafe timeout to prevent stuck loading (max 5 seconds)
-      const failsafeTimeout = new Promise(resolve => setTimeout(resolve, 5000));
+      // Failsafe timeout to prevent stuck loading (max 2 seconds)
+      const failsafeTimeout = new Promise(resolve => setTimeout(resolve, 2000));
 
       try {
-        await Promise.race([
-          Promise.all([
-            preloadCriticalData(),
-            minLoadTime,
-            fontReady
-          ]),
-          failsafeTimeout // Ensure we don't wait forever
-        ]);
+        // Preload data in background, but don't block rendering
+        preloadCriticalData().catch(err => console.error('Preload failed:', err));
+
+        // Only wait for fonts with a failsafe
+        await Promise.race([fontReady, failsafeTimeout]);
 
       } catch (error) {
         console.error('Initialization failed:', error);
-        // Still continue after minimum time even if preload fails
-        await minLoadTime;
       }
 
       if (posthog) {
@@ -112,9 +105,8 @@ const AppContent = () => {
         trackUTMParameters();
       }
 
-      // Small delay to ensure theme is applied before showing content
+      // Show content immediately - no delays
       setIsInitializing(false);
-      setTimeout(() => setShowContent(true), 50);
     };
 
     initializeApp();
@@ -141,7 +133,7 @@ const AppContent = () => {
           <SpeedInsights />
         </>
       )}
-      <div className={`transition-opacity duration-300 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+      <div>
         <TooltipProvider>
           <Sonner />
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>

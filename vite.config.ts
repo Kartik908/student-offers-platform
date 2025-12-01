@@ -75,7 +75,7 @@ export default defineConfig({
           // Animation & Motion
           'motion': ['framer-motion'],
           // Utilities
-          'utils': ['fuse.js', 'date-fns', 'clsx', 'tailwind-merge'],
+          'utils': ['fuse.js', 'clsx', 'tailwind-merge'],
         },
         // Optimize chunk naming for better caching
         chunkFileNames: 'assets/[name]-[hash].js',
