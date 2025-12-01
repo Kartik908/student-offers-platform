@@ -21,7 +21,7 @@ export interface Submission {
 
 export const submissionsService = {
   // Submit a new offer
-  async submitOffer(data: SubmissionData): Promise<Submission> {
+  async submitOffer(data: SubmissionData): Promise<Submission | null> {
     const { data: submission, error } = await supabase
       .from('submissions')
       .insert([{
@@ -30,14 +30,16 @@ export const submissionsService = {
         // Optional: Add user metadata
         user_ip: null, // You could get this from a service
         user_agent: typeof window !== 'undefined' ? navigator.userAgent : null,
-      }]);
+      }])
+      .select()
+      .single();
 
     if (error) {
       console.error('Submission error:', error);
       throw new Error(error.message);
     }
 
-    return null as any;
+    return submission;
   },
 
   // Get all submissions (for admin dashboard)

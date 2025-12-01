@@ -100,14 +100,14 @@ const Admin = () => {
         </Button>
       </div>
       <Tabs defaultValue="submissions" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6 lg:grid-cols-7">
-          <TabsTrigger value="submissions">Submissions</TabsTrigger>
-          <TabsTrigger value="feedback">Feedback</TabsTrigger>
-          <TabsTrigger value="contact">Contact</TabsTrigger>
+        <TabsList className="flex w-full overflow-x-auto pb-2 justify-start lg:grid lg:grid-cols-7 h-auto gap-1.5 bg-transparent lg:bg-muted p-0 lg:p-1 no-scrollbar">
+          <TabsTrigger value="submissions" className="whitespace-nowrap px-3 py-1.5 text-xs rounded-full border border-border/50 bg-background/50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary lg:border-none lg:rounded-sm lg:bg-transparent lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground">Submissions</TabsTrigger>
+          <TabsTrigger value="feedback" className="whitespace-nowrap px-3 py-1.5 text-xs rounded-full border border-border/50 bg-background/50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary lg:border-none lg:rounded-sm lg:bg-transparent lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground">Feedback</TabsTrigger>
+          <TabsTrigger value="contact" className="whitespace-nowrap px-3 py-1.5 text-xs rounded-full border border-border/50 bg-background/50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary lg:border-none lg:rounded-sm lg:bg-transparent lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground">Contact</TabsTrigger>
 
-          <TabsTrigger value="add-offer">Add Offer</TabsTrigger>
-          <TabsTrigger value="manage-offers">Manage Offers</TabsTrigger>
-          <TabsTrigger value="visibility">Visibility</TabsTrigger>
+          <TabsTrigger value="add-offer" className="whitespace-nowrap px-3 py-1.5 text-xs rounded-full border border-border/50 bg-background/50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary lg:border-none lg:rounded-sm lg:bg-transparent lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground">Add Offer</TabsTrigger>
+          <TabsTrigger value="manage-offers" className="whitespace-nowrap px-3 py-1.5 text-xs rounded-full border border-border/50 bg-background/50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary lg:border-none lg:rounded-sm lg:bg-transparent lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground">Manage Offers</TabsTrigger>
+          <TabsTrigger value="visibility" className="whitespace-nowrap px-3 py-1.5 text-xs rounded-full border border-border/50 bg-background/50 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary lg:border-none lg:rounded-sm lg:bg-transparent lg:data-[state=active]:bg-background lg:data-[state=active]:text-foreground">Visibility</TabsTrigger>
         </TabsList>
 
         <TabsContent value="submissions" className="space-y-6">

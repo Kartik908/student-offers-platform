@@ -145,7 +145,7 @@ export function testTrackingCompliance(): void {
   if (preferences.analytics) {
     try {
       if (window.posthog) {
-        (window.posthog as any).capture('compliance_test_analytics', {
+        (window.posthog as unknown as { capture: (event: string, properties: object) => void }).capture('compliance_test_analytics', {
           test_type: 'analytics',
           timestamp: new Date().toISOString(),
         });

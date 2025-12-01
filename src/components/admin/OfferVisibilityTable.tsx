@@ -23,6 +23,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 type FilterType = 'all' | 'featured' | 'hidden_gem' | 'underrated';
@@ -95,6 +102,16 @@ export const OfferVisibilityTable = () => {
         }
     };
 
+    const [sortOption, setSortOption] = useState<string>("name-asc");
+
+    // Calculate counts
+    const counts = {
+        all: offers?.length || 0,
+        featured: offers?.filter(o => o.is_featured).length || 0,
+        hidden_gem: offers?.filter(o => o.is_hidden_gem).length || 0,
+        underrated: offers?.filter(o => o.is_underrated).length || 0,
+    };
+
     const filteredOffers = offers?.filter(offer => {
         const matchesSearch = !searchQuery ||
             offer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -108,6 +125,21 @@ export const OfferVisibilityTable = () => {
             case 'hidden_gem': return offer.is_hidden_gem;
             case 'underrated': return offer.is_underrated;
             default: return true;
+        }
+    }).sort((a, b) => {
+        switch (sortOption) {
+            case "name-asc":
+                return a.name.localeCompare(b.name);
+            case "name-desc":
+                return b.name.localeCompare(a.name);
+            case "featured-first":
+                return (b.is_featured ? 1 : 0) - (a.is_featured ? 1 : 0) || a.name.localeCompare(b.name);
+            case "hidden-first":
+                return (b.is_hidden_gem ? 1 : 0) - (a.is_hidden_gem ? 1 : 0) || a.name.localeCompare(b.name);
+            case "underrated-first":
+                return (b.is_underrated ? 1 : 0) - (a.is_underrated ? 1 : 0) || a.name.localeCompare(b.name);
+            default:
+                return 0;
         }
     }) || [];
 
@@ -166,51 +198,69 @@ export const OfferVisibilityTable = () => {
                 )}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between bg-card p-4 rounded-lg border shadow-sm">
-                {/* Search */}
-                <div className="relative w-full sm:w-72">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                    <Input
-                        placeholder="Search by title, brand, slug..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10"
-                    />
+            <div className="flex flex-col gap-4 bg-card p-4 rounded-lg border shadow-sm">
+                <div className="flex flex-col sm:flex-row gap-4 justify-between">
+                    {/* Search */}
+                    <div className="relative w-full sm:w-72">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                        <Input
+                            placeholder="Search by title, brand, slug..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-10"
+                        />
+                    </div>
+
+                    {/* Sort Dropdown */}
+                    <div className="w-full sm:w-auto">
+                        <Select value={sortOption} onValueChange={setSortOption}>
+                            <SelectTrigger className="w-full sm:w-[180px]">
+                                <SelectValue placeholder="Sort by" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="name-asc">Name (A-Z)</SelectItem>
+                                <SelectItem value="name-desc">Name (Z-A)</SelectItem>
+                                <SelectItem value="featured-first">Featured First</SelectItem>
+                                <SelectItem value="hidden-first">Hidden Gems First</SelectItem>
+                                <SelectItem value="underrated-first">Underrated First</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
 
                 {/* Filters */}
-                <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-lg overflow-x-auto max-w-full">
+                <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-lg overflow-x-auto max-w-full no-scrollbar">
                     <Button
                         variant={activeFilter === 'all' ? 'secondary' : 'ghost'}
                         size="sm"
                         onClick={() => setActiveFilter('all')}
-                        className="text-xs"
+                        className="text-xs whitespace-nowrap"
                     >
-                        All
+                        All ({counts.all})
                     </Button>
                     <Button
                         variant={activeFilter === 'featured' ? 'secondary' : 'ghost'}
                         size="sm"
                         onClick={() => setActiveFilter('featured')}
-                        className="text-xs"
+                        className="text-xs whitespace-nowrap"
                     >
-                        Featured
+                        Featured ({counts.featured})
                     </Button>
                     <Button
                         variant={activeFilter === 'hidden_gem' ? 'secondary' : 'ghost'}
                         size="sm"
                         onClick={() => setActiveFilter('hidden_gem')}
-                        className="text-xs"
+                        className="text-xs whitespace-nowrap"
                     >
-                        Hidden Gems
+                        Hidden Gems ({counts.hidden_gem})
                     </Button>
                     <Button
                         variant={activeFilter === 'underrated' ? 'secondary' : 'ghost'}
                         size="sm"
                         onClick={() => setActiveFilter('underrated')}
-                        className="text-xs"
+                        className="text-xs whitespace-nowrap"
                     >
-                        Underrated
+                        Underrated ({counts.underrated})
                     </Button>
                 </div>
             </div>

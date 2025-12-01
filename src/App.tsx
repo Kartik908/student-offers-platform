@@ -27,8 +27,13 @@ const ContactModal = lazy(() => import("./components/contact/ContactModal").then
 const CookieConsentBanner = lazy(() => import("./components/layout/CookieConsentBanner"));
 
 // Lazy load non-critical pages
+// Lazy load non-critical pages
 const Admin = lazy(() => import("./pages/Admin"));
-const AllTools = lazy(() => import("./pages/AllTools"));
+
+// Preloadable AllTools
+const importAllTools = () => import("./pages/AllTools");
+const AllTools = lazy(importAllTools);
+
 const Favorites = lazy(() => import("./pages/Favorites"));
 const HowWeVerify = lazy(() => import("./pages/HowWeVerify"));
 // Import PrivacyCookiesTerms directly instead of lazy loading
@@ -100,6 +105,28 @@ const AppContent = () => {
     };
 
     initializeApp();
+
+    // Preload AllTools page when the browser is idle
+    // This ensures zero impact on initial load performance
+    const preloadAllTools = () => {
+      if ('requestIdleCallback' in window) {
+        // @ts-ignore - requestIdleCallback is not yet in standard TS lib
+        window.requestIdleCallback(() => {
+          importAllTools();
+        }, { timeout: 5000 });
+      } else {
+        // Fallback for browsers that don't support requestIdleCallback
+        setTimeout(() => {
+          importAllTools();
+        }, 2000);
+      }
+    };
+
+    // Wait a bit after mount before even requesting idle callback
+    // to let high-priority hydration finish
+    const initialTimer = setTimeout(preloadAllTools, 1000);
+
+    return () => clearTimeout(initialTimer);
   }, [posthog]);
 
   // Removed blocking loader check to prevent blink
