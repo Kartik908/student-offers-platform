@@ -1,4 +1,5 @@
 import { supabase } from './supabaseClient';
+import { Session, AuthChangeEvent } from '@supabase/supabase-js';
 
 export const authService = {
   /**
@@ -78,8 +79,7 @@ export const authService = {
   /**
    * Listen to auth state changes
    */
-  onAuthStateChange(callback: (event: string, session: unknown) => void) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return supabase.auth.onAuthStateChange(callback as any);
+  onAuthStateChange(callback: (event: AuthChangeEvent, session: Session | null) => void) {
+    return supabase.auth.onAuthStateChange(callback);
   },
 };
