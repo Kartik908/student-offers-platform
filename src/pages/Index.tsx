@@ -14,6 +14,7 @@ import { useStudentEligibilityToast } from "@/hooks/useStudentEligibilityToast";
 import { UnderratedSection } from "@/components/offers/UnderratedSection";
 
 import { SEO } from "@/components/seo/SEO";
+import { DeferredRender } from "@/components/utils/DeferredRender";
 
 const Index = () => {
   const { data: offers, isLoading, error } = useOffers();
@@ -91,11 +92,15 @@ const Index = () => {
       />
       <Hero offerCount={offers?.length || 180} />
 
-      <CategoryGrid categories={categories} categoryCounts={categoryCounts} />
+      <DeferredRender minHeight="300px" rootMargin="400px">
+        <CategoryGrid categories={categories} categoryCounts={categoryCounts} />
+      </DeferredRender>
 
-      <section className="py-8 md:py-12">
-        <GithubPackBanner />
-      </section>
+      <DeferredRender minHeight="200px" rootMargin="400px">
+        <section className="py-8 md:py-12">
+          <GithubPackBanner />
+        </section>
+      </DeferredRender>
 
       {showLoadingState && (
         <div className="container py-4 md:py-8">
@@ -116,44 +121,50 @@ const Index = () => {
       )}
 
       {offers && (
-        <HighlightsRail
-          githubOffers={githubPackOffers}
-          hiddenGemsOffers={hiddenGemsOffers}
-          featuredOffers={featuredOffers.slice(0, 10)}
-        />
+        <DeferredRender minHeight="400px" rootMargin="400px">
+          <HighlightsRail
+            githubOffers={githubPackOffers}
+            hiddenGemsOffers={hiddenGemsOffers}
+            featuredOffers={featuredOffers.slice(0, 10)}
+          />
+        </DeferredRender>
       )}
 
       {/* India Exclusive Offers Section - Only show for India visitors */}
       {offers && isIndia && (
-        <section className="py-8 md:py-12 bg-gradient-to-b from-background to-muted/30">
-          <div className="container text-center mb-12 mx-auto">
-            <div className="max-w-2xl mx-auto px-4">
-              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
-                🇮🇳 India-Only Student Offers
-              </h2>
-              <p className="text-muted-foreground mt-2">Exclusive deals for students in India</p>
+        <DeferredRender minHeight="300px">
+          <section className="py-8 md:py-12 bg-gradient-to-b from-background to-muted/30">
+            <div className="container text-center mb-12 mx-auto">
+              <div className="max-w-2xl mx-auto px-4">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
+                  🇮🇳 India-Only Student Offers
+                </h2>
+                <p className="text-muted-foreground mt-2">Exclusive deals for students in India</p>
+              </div>
             </div>
-          </div>
-          <div className="container">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
-              {offers
-                .filter(offer =>
-                  offer.name.toLowerCase().includes("chatgpt") ||
-                  (offer.name.toLowerCase().includes("perplexity") && offer.name.toLowerCase().includes("airtel")) ||
-                  (offer.name.toLowerCase().includes("gemini") && offer.name.toLowerCase().includes("jio"))
-                )
-                .slice(0, 3)
-                .map(offer => (
-                  <OfferCard key={offer.id} deal={offer} />
-                ))}
+            <div className="container">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
+                {offers
+                  .filter(offer =>
+                    offer.name.toLowerCase().includes("chatgpt") ||
+                    (offer.name.toLowerCase().includes("perplexity") && offer.name.toLowerCase().includes("airtel")) ||
+                    (offer.name.toLowerCase().includes("gemini") && offer.name.toLowerCase().includes("jio"))
+                  )
+                  .slice(0, 3)
+                  .map(offer => (
+                    <OfferCard key={offer.id} deal={offer} />
+                  ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </DeferredRender>
       )}
 
       {/* Underrated Offers Section */}
       {offers && (
-        <UnderratedSection offers={offers} />
+        <DeferredRender minHeight="400px">
+          <UnderratedSection offers={offers} />
+        </DeferredRender>
       )}
 
       <section className="py-4 md:py-8">
@@ -169,7 +180,9 @@ const Index = () => {
               </div>
             </div>
           ) : offers && offers.length > 0 ? (
-            <OffersGrid offers={randomizedOffers} />
+            <DeferredRender minHeight="800px">
+              <OffersGrid offers={randomizedOffers} />
+            </DeferredRender>
           ) : (
             <div className="text-center py-8">
               <p className="text-muted-foreground">No offers available</p>

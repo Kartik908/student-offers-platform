@@ -76,38 +76,29 @@ const AppContent = () => {
 
   useEffect(() => {
     const initializeApp = async () => {
-      // Wait only for fonts to be ready - no artificial delays
-      const fontReady = typeof document !== 'undefined' ? document.fonts.ready : Promise.resolve();
-
-      // Failsafe timeout to prevent stuck loading (max 2 seconds)
-      const failsafeTimeout = new Promise(resolve => setTimeout(resolve, 2000));
+      // Show content immediately - no delays
+      setIsInitializing(false);
 
       try {
-        // Preload data in background, but don't block rendering
+        // Preload data in background
         preloadCriticalData().catch(err => console.error('Preload failed:', err));
 
-        // Only wait for fonts with a failsafe
-        await Promise.race([fontReady, failsafeTimeout]);
+        if (posthog) {
+          // Initialize basic tracking system
+          trackingManager.initialize(posthog);
 
+          track('app_initialized', {
+            url: window.location.href,
+          });
+
+          // Track UTM parameters - load in background
+          import('@/lib/trackingManager').then(({ trackUTMParameters }) => {
+            trackUTMParameters();
+          });
+        }
       } catch (error) {
         console.error('Initialization failed:', error);
       }
-
-      if (posthog) {
-        // Initialize basic tracking system
-        trackingManager.initialize(posthog);
-
-        track('app_initialized', {
-          url: window.location.href,
-        });
-
-        // Track UTM parameters
-        const { trackUTMParameters } = await import('@/lib/trackingManager');
-        trackUTMParameters();
-      }
-
-      // Show content immediately - no delays
-      setIsInitializing(false);
     };
 
     initializeApp();

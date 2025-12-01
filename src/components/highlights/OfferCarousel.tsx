@@ -31,8 +31,8 @@ const OfferCarousel = ({ title, subtitle, offers, seeAllLink, seeAllText }: Offe
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
       const isOverflowing = scrollWidth > clientWidth;
-      const buffer = 1; 
-      
+      const buffer = 1;
+
       setShowArrows({
         left: isOverflowing && scrollLeft > buffer,
         right: isOverflowing && scrollLeft < scrollWidth - clientWidth - buffer,
@@ -75,17 +75,17 @@ const OfferCarousel = ({ title, subtitle, offers, seeAllLink, seeAllText }: Offe
           </div>
         </div>
       )}
-      
+
       <div className="relative">
         <div ref={scrollContainerRef} className="overflow-x-auto no-scrollbar py-2">
           <div className="flex gap-6 pl-4 sm:pl-6 md:pl-10 lg:pl-20 pr-4 sm:pr-6 md:pr-10 lg:pr-20">
             {offers.map((offer, index) => (
-              <motion.div 
-                key={offer.id} 
+              <motion.div
+                key={offer.id}
                 className="w-[280px] sm:w-[300px] flex-shrink-0"
                 initial={{ opacity: 0, y: 20, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ 
+                transition={{
                   duration: 0.4,
                   delay: index * 0.1,
                   ease: [0.4, 0, 0.2, 1]
@@ -98,7 +98,7 @@ const OfferCarousel = ({ title, subtitle, offers, seeAllLink, seeAllText }: Offe
         </div>
       </div>
 
-      <motion.div 
+      <motion.div
         className="container mt-6 flex items-center justify-end gap-4"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -124,24 +124,26 @@ const OfferCarousel = ({ title, subtitle, offers, seeAllLink, seeAllText }: Offe
           </TooltipProvider>
         )}
         <div className="flex gap-2">
-           <Button
-              variant="outline"
-              size="icon"
-              className="h-10 w-10 rounded-full shadow-sm transition-all duration-200 hover:scale-105"
-              onClick={() => scroll('left')}
-              disabled={!showArrows.left}
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-10 w-10 rounded-full shadow-sm transition-all duration-200 hover:scale-105"
-              onClick={() => scroll('right')}
-              disabled={!showArrows.right}
-            >
-              <ChevronRight className="h-5 w-5" />
-            </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-10 w-10 rounded-full shadow-sm transition-all duration-200 hover:scale-105"
+            onClick={() => scroll('left')}
+            disabled={!showArrows.left}
+            aria-label="Scroll offers left"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-10 w-10 rounded-full shadow-sm transition-all duration-200 hover:scale-105"
+            onClick={() => scroll('right')}
+            disabled={!showArrows.right}
+            aria-label="Scroll offers right"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Button>
         </div>
       </motion.div>
     </div>

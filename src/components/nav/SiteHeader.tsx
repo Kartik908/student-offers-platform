@@ -54,6 +54,7 @@ const SiteHeader = () => {
             to="/"
             className="flex flex-shrink-0 items-center gap-2 sm:gap-3 min-h-[44px] min-w-[44px] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-md p-1"
             onClick={() => trackNavigation(location.pathname, '/')}
+            aria-label="Student Offers Home"
           >
             {/* Icon with subtle glow */}
             <div className="relative flex-shrink-0">
@@ -93,7 +94,7 @@ const SiteHeader = () => {
             <ThemeToggle />
             <NavLink
               to="/favorites"
-              className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11"
+              className="flex items-center justify-center w-12 h-12 sm:w-11 sm:h-11"
               onClick={() => trackNavigation(location.pathname, '/favorites')}
             >
               <Button
@@ -116,7 +117,7 @@ const SiteHeader = () => {
             <Button
               variant="outline"
               size="icon"
-              className="md:hidden h-10 w-10 sm:h-11 sm:w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 min-h-[40px] min-w-[40px] sm:min-h-[44px] sm:min-w-[44px]"
+              className="md:hidden h-12 w-12 sm:h-11 sm:w-11 rounded-lg border-border/50 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 min-h-[48px] min-w-[48px] sm:min-h-[44px] sm:min-w-[44px]"
               onClick={() => {
                 const isModalOpen = document.querySelector('[data-state="open"][role="dialog"]') !== null;
                 if (!isModalOpen) {
