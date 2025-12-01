@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import PageLayout from "./components/layout/PageLayout";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { FavoritesProvider } from "./providers/FavoritesProvider";
+import { OffersProvider } from "./providers/OffersProvider";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import ScrollToTop from "./components/utils/ScrollToTop";
 import { ModalProvider } from "./providers/ModalProvider";
@@ -139,45 +140,47 @@ const AppContent = () => {
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <PageTracker />
             <ScrollToTop />
-            <FavoritesProvider>
+            <OffersProvider>
+              <FavoritesProvider>
 
-              <ModalProvider>
-                <Routes>
-                  <Route path="/" element={<PageLayout />}>
-                    <Route index element={<Index />} />
-                    <Route path="tools" element={
+                <ModalProvider>
+                  <Routes>
+                    <Route path="/" element={<PageLayout />}>
+                      <Route index element={<Index />} />
+                      <Route path="tools" element={
+                        <Suspense fallback={<InitialLoader />}>
+                          <AllTools />
+                        </Suspense>
+                      } />
+                      <Route path="favorites" element={
+                        <Suspense fallback={<InitialLoader />}>
+                          <Favorites />
+                        </Suspense>
+                      } />
+                      <Route path="how-we-verify" element={
+                        <Suspense fallback={<InitialLoader />}>
+                          <HowWeVerify />
+                        </Suspense>
+                      } />
+                      <Route path="privacy-cookies-terms" element={<PrivacyCookiesTerms />} />
+
+                      <Route path="*" element={<NotFound />} />
+                    </Route>
+                    <Route path="admin" element={
                       <Suspense fallback={<InitialLoader />}>
-                        <AllTools />
+                        <Admin />
                       </Suspense>
                     } />
-                    <Route path="favorites" element={
-                      <Suspense fallback={<InitialLoader />}>
-                        <Favorites />
-                      </Suspense>
-                    } />
-                    <Route path="how-we-verify" element={
-                      <Suspense fallback={<InitialLoader />}>
-                        <HowWeVerify />
-                      </Suspense>
-                    } />
-                    <Route path="privacy-cookies-terms" element={<PrivacyCookiesTerms />} />
+                  </Routes>
+                  <Suspense fallback={null}>
+                    <SubmitOfferModal />
+                    <FeedbackModal />
+                    <ContactModal />
+                  </Suspense>
+                </ModalProvider>
 
-                    <Route path="*" element={<NotFound />} />
-                  </Route>
-                  <Route path="admin" element={
-                    <Suspense fallback={<InitialLoader />}>
-                      <Admin />
-                    </Suspense>
-                  } />
-                </Routes>
-                <Suspense fallback={null}>
-                  <SubmitOfferModal />
-                  <FeedbackModal />
-                  <ContactModal />
-                </Suspense>
-              </ModalProvider>
-
-            </FavoritesProvider>
+              </FavoritesProvider>
+            </OffersProvider>
           </BrowserRouter>
           <Suspense fallback={null}>
             <CookieConsentBanner />

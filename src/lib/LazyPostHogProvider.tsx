@@ -72,12 +72,13 @@ export function LazyPostHogProvider({ children }: LazyPostHogProviderProps) {
 
         // Defer initialization until page is interactive
         if (document.readyState === 'complete') {
-            // Page already loaded
-            setTimeout(initializePostHog, 100);
+            // Page already loaded - wait longer to ensure it's off critical path
+            setTimeout(initializePostHog, 1500);
         } else {
             // Wait for load event
             const handleLoad = () => {
-                setTimeout(initializePostHog, 100);
+                // Delay PostHog initialization to keep it off critical rendering path
+                setTimeout(initializePostHog, 1500);
             };
             window.addEventListener('load', handleLoad);
             return () => window.removeEventListener('load', handleLoad);

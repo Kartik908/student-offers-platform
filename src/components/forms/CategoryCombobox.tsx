@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
-import { useOffers } from "@/hooks/useOffers"
+import { useOffers } from "@/providers/OffersProvider"
 import { generateCategoriesFromOffers } from "@/lib/categoryUtils"
 
 interface CategoryComboboxProps {
@@ -35,12 +35,12 @@ export function CategoryCombobox({ value, onChange }: CategoryComboboxProps) {
     })).sort((a, b) => a.label.localeCompare(b.label));
   }, [offers])
 
-  const filteredCategories = inputValue.trim() === "" 
-    ? categories 
+  const filteredCategories = inputValue.trim() === ""
+    ? categories
     : categories.filter(category =>
-        category.label.toLowerCase().includes(inputValue.toLowerCase())
-      )
-  
+      category.label.toLowerCase().includes(inputValue.toLowerCase())
+    )
+
   // All navigable items (categories + create option if applicable)
   const allNavigableItems = React.useMemo(() => {
     const items = [...filteredCategories];
@@ -87,7 +87,7 @@ export function CategoryCombobox({ value, onChange }: CategoryComboboxProps) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setSelectedIndex(prev => 
+      setSelectedIndex(prev =>
         prev < allNavigableItems.length - 1 ? prev + 1 : prev
       );
     } else if (e.key === 'ArrowUp') {
@@ -146,8 +146,8 @@ export function CategoryCombobox({ value, onChange }: CategoryComboboxProps) {
                   aria-label="Remove category"
                   className="inline-flex items-center justify-center"
                 >
-                  <X 
-                    className="h-2 w-2 flex-shrink-0 opacity-70 hover:opacity-100 cursor-pointer transition-opacity" 
+                  <X
+                    className="h-2 w-2 flex-shrink-0 opacity-70 hover:opacity-100 cursor-pointer transition-opacity"
                   />
                 </span>
               </div>
@@ -168,7 +168,7 @@ export function CategoryCombobox({ value, onChange }: CategoryComboboxProps) {
             className="flex h-10 w-full border-0 bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground text-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
-        <div 
+        <div
           ref={scrollContainerRef}
           className="h-[280px] overflow-y-auto p-1 scroll-smooth [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full"
           onWheel={(e) => {
@@ -202,7 +202,7 @@ export function CategoryCombobox({ value, onChange }: CategoryComboboxProps) {
               </div>
             );
           })}
-          
+
           {/* Create new category option */}
           {inputValue && inputValue.trim() !== "" && !categories.find(c => c.label.toLowerCase() === inputValue.toLowerCase()) && (
             <>
@@ -220,7 +220,7 @@ export function CategoryCombobox({ value, onChange }: CategoryComboboxProps) {
               </div>
             </>
           )}
-          
+
           {/* No results message */}
           {filteredCategories.length === 0 && (!inputValue || inputValue.trim() === "") && (
             <div className="py-6 text-center text-sm text-muted-foreground">

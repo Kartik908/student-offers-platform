@@ -1,6 +1,6 @@
 import OfferCard from "@/components/offers/OfferCard";
 import { useFavorites } from "@/providers/FavoritesProvider";
-import { useOffers } from "@/hooks/useOffers";
+import { useOffers } from "@/providers/OffersProvider";
 import { Heart, Shield, Info } from "lucide-react";
 import { FavoritesHeader } from "@/components/favorites/FavoritesHeader";
 import { OfferGridLoadingState } from "@/components/offers/OfferGridLoadingState";

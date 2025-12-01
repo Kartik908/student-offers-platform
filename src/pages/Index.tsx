@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import GithubPackBanner from "@/components/promo/GithubPackBanner";
 import OffersGrid from "@/components/offers/OffersGrid";
 import OfferCard from "@/components/offers/OfferCard";
-import { useOffers } from "@/hooks/useOffers";
+import { useOffers } from "@/providers/OffersProvider";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { Skeleton } from "@/components/ui/skeleton";
 import HighlightsRail from "@/components/highlights/HighlightsRail";

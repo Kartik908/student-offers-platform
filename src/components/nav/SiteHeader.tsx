@@ -7,7 +7,7 @@ import { GraduationCap, Search, Heart, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/nav/ThemeToggle";
 import { useFavorites } from "@/providers/FavoritesProvider";
-import { useOffers } from "@/hooks/useOffers";
+import { useOffers } from "@/providers/OffersProvider";
 import { useModal } from "@/providers/ModalProvider";
 import { trackNavigation } from "@/lib/trackingManager";
 import { SearchDialog } from "@/components/nav/SearchDialog";

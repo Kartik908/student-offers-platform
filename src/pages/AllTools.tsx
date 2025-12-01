@@ -27,7 +27,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useOffers } from "@/hooks/useOffers";
+import { useOffers } from "@/providers/OffersProvider";
 import { Button } from "@/components/ui/button";
 import { Offer } from "@/types";
 import SuggestedOffers from "@/components/offers/SuggestedOffers";
