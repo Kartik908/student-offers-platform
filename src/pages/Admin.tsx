@@ -10,7 +10,7 @@ import { AdminLogin } from "@/components/admin/AdminLogin";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { authService } from "@/lib/auth";
-import { showSuccess, showError } from "@/utils/toast";
+import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { SEO } from "@/components/seo/SEO";
 
@@ -55,11 +55,11 @@ const Admin = () => {
   const handleLogout = async () => {
     try {
       await authService.signOut();
-      showSuccess("Logged out successfully");
+      toast.success("Logged out successfully");
       setIsAuthenticated(false);
     } catch (error: unknown) {
       console.error("Logout error:", error);
-      showError(error instanceof Error ? error.message : "Failed to logout");
+      toast.error(error instanceof Error ? error.message : "Failed to logout");
     }
   };
 

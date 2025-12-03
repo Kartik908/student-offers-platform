@@ -53,7 +53,7 @@ const Index = () => {
   }, [offers]);
 
   // Only show loading state if we have no data at all
-  const showLoadingState = isLoading && !offers;
+  const showLoadingState = isLoading && (!offers || offers.length === 0);
 
   // Generate structured data for the list of offers
   const structuredData = useMemo(() => {
@@ -108,7 +108,7 @@ const Index = () => {
           <Skeleton className="h-10 w-80 mb-8 mx-auto" />
           <div className="flex gap-4 overflow-hidden">
             {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-64 w-72 rounded-xl flex-shrink-0" />
+              <Skeleton key={i} className="h-[380px] w-72 rounded-xl flex-shrink-0" />
             ))}
           </div>
         </div>
@@ -175,7 +175,7 @@ const Index = () => {
               <Skeleton className="h-6 w-3/4 mb-8" />
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {Array.from({ length: 12 }).map((_, i) => (
-                  <Skeleton key={i} className="h-64 w-full rounded-xl" />
+                  <Skeleton key={i} className="h-[380px] w-full rounded-xl" />
                 ))}
               </div>
             </div>

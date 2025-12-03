@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { showError } from "@/utils/toast";
+import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
@@ -105,7 +105,7 @@ export function FeedbackModal() {
     } catch (error) {
       console.error('Feedback submission failed:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to submit feedback';
-      showError(errorMessage);
+      toast.error(errorMessage);
 
       // Track error with PostHog
       if (typeof window !== 'undefined' && window.posthog) {
@@ -164,19 +164,59 @@ export function FeedbackModal() {
 
         {/* Form Content - Scrollable */}
         <div className="px-6 py-5 overflow-y-auto flex-1">
-        <Form {...form}>
-          <form id="feedback-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-            {/* Name Fields */}
-            <div className="grid grid-cols-2 gap-4">
+          <Form {...form}>
+            <form id="feedback-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+              {/* Name Fields */}
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-foreground">First name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="First name"
+                          {...field}
+                          className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
+                        />
+                      </FormControl>
+                      <FormMessage className="text-destructive text-xs" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sm font-medium text-foreground">Last name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Last name"
+                          {...field}
+                          className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
+                        />
+                      </FormControl>
+                      <FormMessage className="text-destructive text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Email Field */}
               <FormField
                 control={form.control}
-                name="firstName"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-foreground">First name</FormLabel>
+                    <FormLabel className="text-sm font-medium text-foreground">
+                      Email <span className="text-destructive">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="First name"
+                        type="email"
+                        placeholder="you@company.com"
                         {...field}
                         className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
                       />
@@ -185,108 +225,68 @@ export function FeedbackModal() {
                   </FormItem>
                 )}
               />
+
+              {/* Subject Field */}
               <FormField
                 control={form.control}
-                name="lastName"
+                name="subject"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-foreground">Last name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Last name"
-                        {...field}
-                        className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
-                      />
-                    </FormControl>
+                    <FormLabel className="text-sm font-medium text-foreground">
+                      Subject <span className="text-destructive">*</span>
+                    </FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="bg-muted/50 border-border text-foreground focus:border-primary focus:ring-0">
+                          {field.value ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-primary/10 text-primary text-sm font-medium border border-primary/20">
+                              {field.value}
+                            </span>
+                          ) : (
+                            <SelectValue placeholder="Choose subject" />
+                          )}
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="z-[200]">
+                        {subjects.map((subject) => (
+                          <SelectItem key={subject} value={subject}>
+                            {subject}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage className="text-destructive text-xs" />
                   </FormItem>
                 )}
               />
-            </div>
 
-            {/* Email Field */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-foreground">
-                    Email <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="you@company.com"
-                      {...field}
-                      className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-destructive text-xs" />
-                </FormItem>
-              )}
-            />
-
-            {/* Subject Field */}
-            <FormField
-              control={form.control}
-              name="subject"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-foreground">
-                    Subject <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+              {/* Message Field */}
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-foreground">
+                      Message <span className="text-destructive">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <SelectTrigger className="bg-muted/50 border-border text-foreground focus:border-primary focus:ring-0">
-                        {field.value ? (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-primary/10 text-primary text-sm font-medium border border-primary/20">
-                            {field.value}
-                          </span>
-                        ) : (
-                          <SelectValue placeholder="Choose subject" />
-                        )}
-                      </SelectTrigger>
+                      <Textarea
+                        placeholder="Leave us a message"
+                        {...field}
+                        rows={5}
+                        className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0 resize-none"
+                      />
                     </FormControl>
-                    <SelectContent className="z-[200]">
-                      {subjects.map((subject) => (
-                        <SelectItem key={subject} value={subject}>
-                          {subject}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage className="text-destructive text-xs" />
-                </FormItem>
-              )}
-            />
+                    <div className="flex justify-between items-center mt-1.5">
+                      <FormMessage className="text-destructive text-xs" />
+                      <span className="text-xs text-muted-foreground">{messageLength}/500</span>
+                    </div>
+                  </FormItem>
+                )}
+              />
 
-            {/* Message Field */}
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-foreground">
-                    Message <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Leave us a message"
-                      {...field}
-                      rows={5}
-                      className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0 resize-none"
-                    />
-                  </FormControl>
-                  <div className="flex justify-between items-center mt-1.5">
-                    <FormMessage className="text-destructive text-xs" />
-                    <span className="text-xs text-muted-foreground">{messageLength}/500</span>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-          </form>
-        </Form>
+            </form>
+          </Form>
         </div>
 
         {/* Divider */}

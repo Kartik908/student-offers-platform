@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { ExternalLink, Trash2, Search, Edit } from "lucide-react";
-import { showSuccess, showError } from "@/utils/toast";
+import { toast } from "sonner";
 import { EditOfferDialog } from "./EditOfferDialog";
 
 export const ManageOffersTable = () => {
@@ -27,9 +27,9 @@ export const ManageOffersTable = () => {
     if (window.confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`)) {
       try {
         await deleteOffer.mutateAsync(id);
-        showSuccess('Offer deleted successfully');
+        toast.success('Offer deleted successfully');
       } catch (error) {
-        showError('Failed to delete offer');
+        toast.error('Failed to delete offer');
       }
     }
   };

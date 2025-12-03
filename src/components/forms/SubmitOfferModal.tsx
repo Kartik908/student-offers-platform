@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { CategoryCombobox } from "./CategoryCombobox";
-import { showError } from "@/utils/toast";
+import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { submissionsService } from "@/services/submissions";
 
@@ -59,14 +59,14 @@ export function SubmitOfferModal() {
         url: values.url,
         category: values.category,
       });
-      
+
       setIsSuccess(true);
       // Remove toast since modal shows success message
     } catch (error) {
       console.error('Submission failed:', error);
       // Show more specific error message
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      showError(`Failed to submit: ${errorMessage}`);
+      toast.error(`Failed to submit: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -90,7 +90,7 @@ export function SubmitOfferModal() {
             <p className="text-muted-foreground text-sm mb-6">
               We'll review the offer and list it if it qualifies. Thanks for helping fellow students save!
             </p>
-            <Button 
+            <Button
               onClick={handleClose}
               className="min-w-[120px]"
             >
@@ -117,55 +117,55 @@ export function SubmitOfferModal() {
 
         {/* Form Content - Scrollable */}
         <div className="px-6 py-5 overflow-y-auto flex-1">
-        <Form {...form}>
-          <form id="submit-offer-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* URL Field */}
-            <FormField
-              control={form.control}
-              name="url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-foreground">
-                    Offer URL <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="https://example.com/student-discount"
-                      {...field}
-                      className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-destructive text-xs" />
-                </FormItem>
-              )}
-            />
+          <Form {...form}>
+            <form id="submit-offer-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {/* URL Field */}
+              <FormField
+                control={form.control}
+                name="url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-foreground">
+                      Offer URL <span className="text-destructive">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="https://example.com/student-discount"
+                        {...field}
+                        className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-destructive text-xs" />
+                  </FormItem>
+                )}
+              />
 
-            {/* Category Field */}
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-foreground">
-                    Choose a category <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <CategoryCombobox 
-                      value={field.value} 
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-destructive text-xs" />
-                </FormItem>
-              )}
-            />
+              {/* Category Field */}
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-foreground">
+                      Choose a category <span className="text-destructive">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <CategoryCombobox
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-destructive text-xs" />
+                  </FormItem>
+                )}
+              />
 
-            {/* Footer Note */}
-            <p className="text-xs text-muted-foreground">
-              We'll review and add it if it meets our guidelines. Thank you!
-            </p>
-          </form>
-        </Form>
+              {/* Footer Note */}
+              <p className="text-xs text-muted-foreground">
+                We'll review and add it if it meets our guidelines. Thank you!
+              </p>
+            </form>
+          </Form>
 
         </div>
 

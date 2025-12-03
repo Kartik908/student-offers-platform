@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { showError } from "@/utils/toast";
+import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
@@ -79,19 +79,19 @@ export function ContactModal() {
     setIsSubmitting(true);
     try {
       const { feedbackService } = await import('@/services/feedback');
-      
+
       await feedbackService.submitContact({
         name: values.name,
         email: values.email,
         subject: values.subject,
         message: values.message,
       });
-      
+
       setIsSuccess(true);
     } catch (error) {
       console.error('Contact submission failed:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to send message';
-      showError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -115,7 +115,7 @@ export function ContactModal() {
             <p className="text-muted-foreground text-sm mb-6">
               Thanks for reaching out. We'll review your message and get back to you soon.
             </p>
-            <Button 
+            <Button
               onClick={handleClose}
               className="min-w-[120px]"
             >
@@ -141,112 +141,112 @@ export function ContactModal() {
 
         {/* Form Content - Scrollable */}
         <div className="px-6 py-5 overflow-y-auto flex-1">
-        <Form {...form}>
-          <form id="contact-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-            {/* Name Field */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-foreground">
-                    Name <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="e.g. Alex Carter"
-                      {...field}
-                      className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-destructive text-xs" />
-                </FormItem>
-              )}
-            />
-
-            {/* Email Field */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-foreground">
-                    Email <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="email"
-                      placeholder="alex@company.com"
-                      {...field}
-                      className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-destructive text-xs" />
-                </FormItem>
-              )}
-            />
-
-            {/* Subject Field */}
-            <FormField
-              control={form.control}
-              name="subject"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-foreground">
-                    Subject <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+          <Form {...form}>
+            <form id="contact-form" onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+              {/* Name Field */}
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-foreground">
+                      Name <span className="text-destructive">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <SelectTrigger className="bg-muted/50 border-border text-foreground focus:border-primary focus:ring-0">
-                        {field.value ? (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-primary/10 text-primary text-sm font-medium border border-primary/20">
-                            {field.value}
-                          </span>
-                        ) : (
-                          <SelectValue placeholder="Choose a reason" />
-                        )}
-                      </SelectTrigger>
+                      <Input
+                        placeholder="e.g. Alex Carter"
+                        {...field}
+                        className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
+                      />
                     </FormControl>
-                    <SelectContent className="z-[200]">
-                      {subjects.map((subject) => (
-                        <SelectItem key={subject} value={subject}>
-                          {subject}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage className="text-destructive text-xs" />
-                </FormItem>
-              )}
-            />
-
-            {/* Message Field */}
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-foreground">
-                    Message <span className="text-destructive">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Tell us about your proposal or idea"
-                      {...field}
-                      rows={5}
-                      className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0 resize-none"
-                    />
-                  </FormControl>
-                  <div className="flex justify-between items-center mt-1.5">
                     <FormMessage className="text-destructive text-xs" />
-                    <span className="text-xs text-muted-foreground">{messageLength}/500</span>
-                  </div>
-                </FormItem>
-              )}
-            />
+                  </FormItem>
+                )}
+              />
 
-          </form>
-        </Form>
+              {/* Email Field */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-foreground">
+                      Email <span className="text-destructive">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="alex@company.com"
+                        {...field}
+                        className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-destructive text-xs" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Subject Field */}
+              <FormField
+                control={form.control}
+                name="subject"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-foreground">
+                      Subject <span className="text-destructive">*</span>
+                    </FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="bg-muted/50 border-border text-foreground focus:border-primary focus:ring-0">
+                          {field.value ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-primary/10 text-primary text-sm font-medium border border-primary/20">
+                              {field.value}
+                            </span>
+                          ) : (
+                            <SelectValue placeholder="Choose a reason" />
+                          )}
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="z-[200]">
+                        {subjects.map((subject) => (
+                          <SelectItem key={subject} value={subject}>
+                            {subject}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-destructive text-xs" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Message Field */}
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium text-foreground">
+                      Message <span className="text-destructive">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Tell us about your proposal or idea"
+                        {...field}
+                        rows={5}
+                        className="bg-muted/50 border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-0 resize-none"
+                      />
+                    </FormControl>
+                    <div className="flex justify-between items-center mt-1.5">
+                      <FormMessage className="text-destructive text-xs" />
+                      <span className="text-xs text-muted-foreground">{messageLength}/500</span>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+            </form>
+          </Form>
         </div>
 
         {/* Divider */}

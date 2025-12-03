@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Search, Filter, CheckSquare, Square, Loader2 } from "lucide-react";
-import { showSuccess, showError } from "@/utils/toast";
+import { toast } from "sonner";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -52,11 +52,11 @@ export const OfferVisibilityTable = () => {
                 id,
                 updates: { [field]: !currentValue }
             });
-            showSuccess(`Updated ${field.replace('is_', '').replace('_', ' ')} status`);
+            toast.success(`Updated ${field.replace('is_', '').replace('_', ' ')} status`);
         } catch (error) {
             console.error('Toggle error:', error);
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-            showError(`Failed to update status: ${errorMessage}`);
+            toast.error(`Failed to update status: ${errorMessage}`);
         }
     };
 
@@ -91,12 +91,12 @@ export const OfferVisibilityTable = () => {
             );
 
             await Promise.all(promises);
-            showSuccess(`Updated ${selectedOffers.size} offers`);
+            toast.success(`Updated ${selectedOffers.size} offers`);
             setSelectedOffers(new Set());
         } catch (error) {
             console.error('Bulk update error:', error);
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-            showError(`Failed to perform bulk update: ${errorMessage}`);
+            toast.error(`Failed to perform bulk update: ${errorMessage}`);
         } finally {
             setIsBulkUpdating(false);
         }

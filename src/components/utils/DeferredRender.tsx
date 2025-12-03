@@ -66,7 +66,10 @@ export const DeferredRender = ({
         <div
             ref={ref}
             className={className}
-            style={{ minHeight: !isVisible ? minHeight : undefined }}
+            style={{
+                minHeight: minHeight,
+                transition: 'min-height 0.3s ease-out'
+            }}
         >
             {isVisible ? children : null}
         </div>

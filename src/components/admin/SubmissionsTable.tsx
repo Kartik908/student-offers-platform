@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ExternalLink, Clock, CheckCircle, XCircle, Trash2 } from "lucide-react";
-import { showSuccess, showError } from "@/utils/toast";
+import { toast } from "sonner";
 
 export const SubmissionsTable = () => {
   const { data: submissions, isLoading, error } = useSubmissions();
@@ -31,11 +31,11 @@ export const SubmissionsTable = () => {
   const handleStatusUpdate = async (id: number, status: 'approved' | 'rejected') => {
     try {
       await updateStatus.mutateAsync({ id, status, adminNotes });
-      showSuccess(`Submission ${status} successfully`);
+      toast.success(`Submission ${status} successfully`);
       setSelectedSubmission(null);
       setAdminNotes("");
     } catch (error) {
-      showError(`Failed to ${status} submission`);
+      toast.error(`Failed to ${status} submission`);
     }
   };
 
@@ -43,9 +43,9 @@ export const SubmissionsTable = () => {
     if (window.confirm('Are you sure you want to delete this submission? This action cannot be undone.')) {
       try {
         await deleteSubmission.mutateAsync(id);
-        showSuccess('Submission deleted successfully');
+        toast.success('Submission deleted successfully');
       } catch (error) {
-        showError('Failed to delete submission');
+        toast.error('Failed to delete submission');
       }
     }
   };

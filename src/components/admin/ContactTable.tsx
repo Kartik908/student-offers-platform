@@ -19,7 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Loader2, Trash2 } from "lucide-react";
-import { showSuccess, showError } from "@/utils/toast";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -59,7 +59,7 @@ export function ContactTable() {
       setContacts(data as Contact[]);
     } catch (error) {
       console.error('Failed to load contacts:', error);
-      showError('Failed to load contact messages');
+      toast.error('Failed to load contact messages');
     } finally {
       setLoading(false);
     }
@@ -68,11 +68,11 @@ export function ContactTable() {
   const handleStatusChange = async (id: string, newStatus: 'new' | 'in_progress' | 'resolved' | 'archived') => {
     try {
       await feedbackService.updateContactStatus(id, newStatus);
-      showSuccess('Status updated');
+      toast.success('Status updated');
       loadContacts();
     } catch (error) {
       console.error('Failed to update status:', error);
-      showError('Failed to update status');
+      toast.error('Failed to update status');
     }
   };
 
@@ -81,12 +81,12 @@ export function ContactTable() {
 
     try {
       await feedbackService.deleteContact(deleteId);
-      showSuccess('Contact deleted');
+      toast.success('Contact deleted');
       setDeleteId(null);
       loadContacts();
     } catch (error) {
       console.error('Failed to delete contact:', error);
-      showError('Failed to delete contact');
+      toast.error('Failed to delete contact');
     }
   };
 

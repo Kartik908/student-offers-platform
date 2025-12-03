@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { showSuccess, showError } from "@/utils/toast";
+import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 import { OfferForm, OfferFormValues } from "./OfferForm";
 
@@ -65,7 +65,7 @@ export const AddOfferForm = () => {
         throw error;
       }
 
-      showSuccess("Offer added successfully!");
+      toast.success("Offer added successfully!");
       // We don't have direct access to form reset here easily without lifting state or using a ref,
       // but for now, a page reload or just clearing the form via key change could work.
       // However, to keep it simple and robust, we can just reload the window or let the user navigate away.
@@ -75,7 +75,7 @@ export const AddOfferForm = () => {
     } catch (error) {
       console.error('Failed to add offer:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      showError(`Failed to add offer: ${errorMessage}`);
+      toast.error(`Failed to add offer: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }

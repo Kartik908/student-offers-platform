@@ -5,7 +5,7 @@ import { useState, useMemo } from 'react';
 import { Offer } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Copy, ChevronDown, ChevronUp, Info } from 'lucide-react';
-import { showSuccess } from '@/utils/toast';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import {
   Collapsible,
@@ -60,7 +60,7 @@ const OfferExtraDetails = ({ offer, showNotesInline = true }: OfferExtraDetailsP
 
   const handleCopy = (code: string) => {
     navigator.clipboard.writeText(code);
-    showSuccess(`Copied "${code}" to clipboard!`);
+    toast.success(`Copied "${code}" to clipboard!`);
   };
 
   const finalUrl = selectedCountry ? selectedCountry.url : offer.claim_url;

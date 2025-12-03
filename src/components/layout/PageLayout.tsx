@@ -13,7 +13,7 @@ const PageLayout = () => {
     <div className="flex flex-col min-h-screen">
       <GlobalLoadingIndicator />
       <SiteHeader />
-      <main className="flex-grow">
+      <main id="main-content" className="flex-grow">
         <Outlet />
       </main>
       <SiteFooter />

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { OfferForm, OfferFormValues } from "./OfferForm";
 import { useUpdateOffer } from "@/hooks/useOffersAdmin";
-import { showSuccess, showError } from "@/utils/toast";
+import { toast } from "sonner";
 
 interface EditOfferDialogProps {
     offer: Offer | null;
@@ -76,12 +76,12 @@ export const EditOfferDialog = ({ offer, open, onOpenChange }: EditOfferDialogPr
                 updates: updateData
             });
 
-            showSuccess("Offer updated successfully");
+            toast.success("Offer updated successfully");
             onOpenChange(false);
         } catch (error) {
             console.error("Failed to update offer:", error);
             const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-            showError(`Failed to update offer: ${errorMessage}`);
+            toast.error(`Failed to update offer: ${errorMessage}`);
         } finally {
             setIsSubmitting(false);
         }

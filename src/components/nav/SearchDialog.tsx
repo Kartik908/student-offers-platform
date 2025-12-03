@@ -146,8 +146,8 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
         <Dialog open={open} onOpenChange={(newOpen) => {
             onOpenChange(newOpen);
         }}>
-            <DialogContent className="w-full h-[100dvh] sm:h-auto sm:max-w-2xl p-0 gap-0 [&>button]:hidden rounded-none sm:rounded-lg shadow-none sm:shadow-xl top-0 translate-y-0 sm:top-[50%] sm:translate-y-[-50%] data-[state=open]:slide-in-from-top-[0%] sm:data-[state=open]:slide-in-from-top-[48%] border-0 sm:border">
-                <div className="flex items-center border-b px-3 relative py-2 sm:py-0">
+            <DialogContent className="w-full h-[100dvh] sm:h-auto sm:max-w-xl md:max-w-2xl p-0 gap-0 [&>button]:hidden rounded-none sm:rounded-xl shadow-none sm:shadow-2xl top-0 translate-y-0 sm:top-[50%] sm:translate-y-[-50%] data-[state=open]:slide-in-from-top-[0%] sm:data-[state=open]:slide-in-from-top-[48%] border-0 sm:border overflow-hidden">
+                <div className="flex items-center border-b px-4 relative py-3 sm:py-2.5 bg-background/95 backdrop-blur-sm">
                     <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                     <Input
                         placeholder="Search for tools, categories, or filters..."
@@ -299,7 +299,7 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
                 <div
                     ref={scrollContainerRef}
                     id="search-listbox"
-                    className="flex-1 overflow-y-auto scroll-smooth"
+                    className="flex-1 overflow-y-auto scroll-smooth max-h-[calc(100dvh-80px)] sm:max-h-[60vh]"
                     style={{ scrollPaddingTop: '0px', scrollPaddingBottom: '12px' }}
                     role="listbox"
                     aria-label="Search results"
@@ -314,7 +314,7 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
                     )}
                     {!isLoading && (!searchValue || searchValue.length === 0) && (
                         <>
-                            <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">Popular Searches</div>
+                            <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Popular Searches</div>
                             {["AI tools", "GitHub Student Pack", "Figma", "Notion"].map((term, index) => {
                                 const to = term === "AI tools"
                                     ? `/tools?category=ai-tools`
@@ -341,7 +341,7 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
                                 );
                             })}
 
-                            <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground mt-2">Categories</div>
+                            <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-3">Categories</div>
                             {categories.slice(0, showAllCategories ? categories.length : 10).map((c, index) => {
                                 const globalIndex = 4 + index; // 4 popular searches + current category index
                                 const isSelected = selectedIndex === globalIndex;
@@ -375,7 +375,7 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
                                 </div>
                             )}
 
-                            <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground mt-2">Filters</div>
+                            <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-3">Filters</div>
                             {allTags.slice(0, showAllFilters ? allTags.length : 6).map((tag, index) => {
                                 const categoriesCount = showAllCategories ? categories.length : Math.min(10, categories.length);
                                 const globalIndex = 4 + categoriesCount + index; // 4 popular + categories + current tag index
@@ -410,7 +410,7 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
                                 </div>
                             )}
 
-                            <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground mt-2">Tools</div>
+                            <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-3">Tools</div>
                             {offers && offers.slice(0, showAllTools ? offers.length : 15).map((d, index) => {
                                 const categoriesCount = showAllCategories ? categories.length : Math.min(10, categories.length);
                                 const tagsCount = showAllFilters ? allTags.length : Math.min(6, allTags.length);
@@ -475,6 +475,19 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
                             d.name.toLowerCase() === query
                         );
 
+                        // Only show "Did you mean?" if:
+                        // 1. No exact match found
+                        // 2. We have fuzzy results
+                        // 3. The top result has reasonable similarity (starts with same letters or contains query)
+                        const topResult = filteredResults[0];
+                        const shouldShowDidYouMean = exactMatches.length === 0
+                            && filteredResults.length > 0
+                            && (
+                                topResult.name.toLowerCase().startsWith(query.slice(0, 2)) // Starts with same 2 letters
+                                || topResult.name.toLowerCase().includes(query.slice(0, 3)) // Contains first 3 letters
+                                || query.length >= 4 // For longer queries, be more lenient
+                            );
+
                         if (filteredResults.length === 0) {
                             return (
                                 <div className="py-6 text-center text-sm text-muted-foreground">
@@ -490,24 +503,26 @@ export const SearchDialog = ({ open, onOpenChange, offers, isLoading }: SearchDi
 
                         return (
                             <>
-                                {/* Show 'Did you mean?' if fuzzy search found results but no exact match */}
-                                {exactMatches.length === 0 && filteredResults.length > 0 && (
-                                    <div className="px-2 border-b border-border -mt-[1px]">
-                                        <div className="text-xs text-muted-foreground py-1.5 leading-tight">
-                                            Did you mean: <button
-                                                onClick={() => {
-                                                    setSearchValue(filteredResults[0].name);
-                                                    // Don't close the dropdown, let user see updated results
-                                                }}
-                                                className="text-primary font-medium hover:underline focus:outline-none focus:underline"
-                                            >
-                                                {filteredResults[0].name}
-                                            </button>?
-                                        </div>
+                                {/* Show 'Did you mean?' if fuzzy search found strong match but no exact match */}
+                                {shouldShowDidYouMean && (
+                                    <div className="px-3 py-2.5 bg-muted/30 border-b border-border">
+                                        <span className="text-xs text-muted-foreground">
+                                            Did you mean:{" "}
+                                        </span>
+                                        <button
+                                            onClick={() => {
+                                                onOpenChange(false);
+                                                navigate(`/tools?q=${encodeURIComponent(filteredResults[0].name)}&id=${filteredResults[0].id}`);
+                                            }}
+                                            className="text-xs text-primary font-semibold hover:underline focus:outline-none focus:underline"
+                                        >
+                                            {filteredResults[0].name}
+                                        </button>
+                                        <span className="text-xs text-muted-foreground">?</span>
                                     </div>
                                 )}
 
-                                <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+                                <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                                     Search Results ({filteredResults.length} found)
                                 </div>
 

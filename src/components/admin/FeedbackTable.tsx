@@ -19,7 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Loader2, Trash2 } from "lucide-react";
-import { showSuccess, showError } from "@/utils/toast";
+import { toast } from "sonner";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -60,7 +60,7 @@ export function FeedbackTable() {
       setFeedback(data as Feedback[]);
     } catch (error) {
       console.error('Failed to load feedback:', error);
-      showError('Failed to load feedback');
+      toast.error('Failed to load feedback');
     } finally {
       setLoading(false);
     }
@@ -69,11 +69,11 @@ export function FeedbackTable() {
   const handleStatusChange = async (id: string, newStatus: 'new' | 'in_progress' | 'resolved' | 'archived') => {
     try {
       await feedbackService.updateFeedbackStatus(id, newStatus);
-      showSuccess('Status updated');
+      toast.success('Status updated');
       loadFeedback();
     } catch (error) {
       console.error('Failed to update status:', error);
-      showError('Failed to update status');
+      toast.error('Failed to update status');
     }
   };
 
@@ -82,12 +82,12 @@ export function FeedbackTable() {
 
     try {
       await feedbackService.deleteFeedback(deleteId);
-      showSuccess('Feedback deleted');
+      toast.success('Feedback deleted');
       setDeleteId(null);
       loadFeedback();
     } catch (error) {
       console.error('Failed to delete feedback:', error);
-      showError('Failed to delete feedback');
+      toast.error('Failed to delete feedback');
     }
   };
 

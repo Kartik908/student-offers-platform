@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Loader2, Eye, EyeOff } from "lucide-react";
-import { showError, showSuccess } from "@/utils/toast";
+import { toast } from "sonner";
 
 interface AdminLoginProps {
   onLoginSuccess: () => void;
@@ -24,19 +24,19 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     e.preventDefault();
 
     if (!email || !password) {
-      showError("Please enter email and password");
+      toast.error("Please enter email and password");
       return;
     }
 
     setLoading(true);
     try {
       await authService.signIn(email, password);
-      showSuccess("Login successful");
+      toast.success("Login successful");
       onLoginSuccess();
     } catch (error: unknown) {
       console.error("Login error:", error);
       const errorMessage = error instanceof Error ? error.message : "Invalid email or password";
-      showError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -46,20 +46,20 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     e.preventDefault();
 
     if (!resetEmail) {
-      showError("Please enter your email");
+      toast.error("Please enter your email");
       return;
     }
 
     setResetLoading(true);
     try {
       await authService.resetPassword(resetEmail);
-      showSuccess("Password reset email sent! Check your inbox.");
+      toast.success("Password reset email sent! Check your inbox.");
       setShowResetPassword(false);
       setResetEmail("");
     } catch (error: unknown) {
       console.error("Reset password error:", error);
       const errorMessage = error instanceof Error ? error.message : "Failed to send reset email";
-      showError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setResetLoading(false);
     }

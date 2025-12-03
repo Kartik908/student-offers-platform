@@ -39,7 +39,15 @@ export function SEO({
             <meta property="og:image" content={image} />
             <meta property="og:site_name" content={siteTitle} />
 
+            {/* Twitter Card */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:site" content="@studentoffers" />
+            <meta name="twitter:title" content={fullTitle} />
+            <meta name="twitter:description" content={description} />
             <meta property="twitter:image" content={image} />
+
+            {/* Theme color for mobile browsers */}
+            <meta name="theme-color" content="#3b82f6" />
 
             {/* Structured Data */}
             {structuredData && (

@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight, Copy } from "lucide-react";
 import { Offer } from "@/types";
-import { showSuccess } from "@/utils/toast";
+import { toast } from "sonner";
 
 interface DiscountCodeModalProps {
   isOpen: boolean;
@@ -24,7 +24,7 @@ export default function DiscountCodeModal({ isOpen, onClose, offer }: DiscountCo
 
   const handleCopy = (code: string) => {
     navigator.clipboard.writeText(code);
-    showSuccess(`Copied "${code}" to clipboard!`);
+    toast.success(`Copied "${code}" to clipboard!`);
   };
 
   const handleContinueToOffer = () => {

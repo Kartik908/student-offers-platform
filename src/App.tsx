@@ -19,6 +19,7 @@ import { ModalProvider } from "./providers/ModalProvider";
 import { useDeferredAnalytics } from "./hooks/useDeferredAnalytics";
 
 import { InitialLoader } from "./components/layout/InitialLoader";
+import { ErrorBoundary, SkipToContent } from "./components/common";
 
 // Lazy load modals (only load when opened)
 const SubmitOfferModal = lazy(() => import("./components/forms/SubmitOfferModal").then(m => ({ default: m.SubmitOfferModal })));
@@ -75,16 +76,41 @@ const PageTracker = () => {
 };
 
 const AppContent = () => {
-  // Start false to render immediately
-  const [isInitializing, setIsInitializing] = useState(false);
+  // Show preloader only on first homepage load in this session
+  const [isInitializing, setIsInitializing] = useState(() => {
+    const hasLoadedBefore = sessionStorage.getItem('app_loaded');
+    const isHomepage = window.location.pathname === '/';
+    return !hasLoadedBefore && isHomepage;
+  });
   const posthog = usePostHog();
   const analyticsReady = useDeferredAnalytics();
 
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // Preload data in background
-        preloadCriticalData().catch(err => console.error('Preload failed:', err));
+        // Handle preloader if showing
+        if (isInitializing) {
+          const preloadTimer = setTimeout(() => {
+            setIsInitializing(false);
+            sessionStorage.setItem('app_loaded', 'true');
+          }, 1000);
+
+          preloadCriticalData()
+            .then(() => {
+              clearTimeout(preloadTimer);
+              setIsInitializing(false);
+              sessionStorage.setItem('app_loaded', 'true');
+            })
+            .catch(err => {
+              console.error('Preload failed:', err);
+              clearTimeout(preloadTimer);
+              setIsInitializing(false);
+              sessionStorage.setItem('app_loaded', 'true');
+            });
+        } else {
+          // Preload data in background if not showing preloader
+          preloadCriticalData().catch(err => console.error('Preload failed:', err));
+        }
 
         if (posthog) {
           // Initialize basic tracking system
@@ -106,6 +132,18 @@ const AppContent = () => {
 
     initializeApp();
 
+    // Prevent scroll restoration during initial load
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    // Re-enable after content loads
+    const scrollTimer = setTimeout(() => {
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'auto';
+      }
+    }, 2000);
+
     // Preload AllTools page when the browser is idle
     // This ensures zero impact on initial load performance
     const preloadAllTools = () => {
@@ -126,10 +164,16 @@ const AppContent = () => {
     // to let high-priority hydration finish
     const initialTimer = setTimeout(preloadAllTools, 1000);
 
-    return () => clearTimeout(initialTimer);
-  }, [posthog]);
+    return () => {
+      clearTimeout(initialTimer);
+      clearTimeout(scrollTimer);
+    };
+  }, [posthog, isInitializing]);
 
-  // Removed blocking loader check to prevent blink
+  // Show preloader if initializing
+  if (isInitializing) {
+    return <InitialLoader />;
+  }
 
 
   return (
@@ -147,6 +191,7 @@ const AppContent = () => {
           <SpeedInsights />
         </>
       )}
+      <SkipToContent />
       <div>
         <TooltipProvider>
           <Sonner />
@@ -157,34 +202,36 @@ const AppContent = () => {
               <FavoritesProvider>
 
                 <ModalProvider>
-                  <Routes>
-                    <Route path="/" element={<PageLayout />}>
-                      <Route index element={<Index />} />
-                      <Route path="tools" element={
-                        <Suspense fallback={<InitialLoader />}>
-                          <AllTools />
-                        </Suspense>
-                      } />
-                      <Route path="favorites" element={
-                        <Suspense fallback={<InitialLoader />}>
-                          <Favorites />
-                        </Suspense>
-                      } />
-                      <Route path="how-we-verify" element={
-                        <Suspense fallback={<InitialLoader />}>
-                          <HowWeVerify />
-                        </Suspense>
-                      } />
-                      <Route path="privacy-cookies-terms" element={<PrivacyCookiesTerms />} />
+                  <ErrorBoundary>
+                    <Routes>
+                      <Route path="/" element={<PageLayout />}>
+                        <Route index element={<Index />} />
+                        <Route path="tools" element={
+                          <Suspense fallback={null}>
+                            <AllTools />
+                          </Suspense>
+                        } />
+                        <Route path="favorites" element={
+                          <Suspense fallback={null}>
+                            <Favorites />
+                          </Suspense>
+                        } />
+                        <Route path="how-we-verify" element={
+                          <Suspense fallback={null}>
+                            <HowWeVerify />
+                          </Suspense>
+                        } />
+                        <Route path="privacy-cookies-terms" element={<PrivacyCookiesTerms />} />
 
-                      <Route path="*" element={<NotFound />} />
-                    </Route>
-                    <Route path="admin" element={
-                      <Suspense fallback={<InitialLoader />}>
-                        <Admin />
-                      </Suspense>
-                    } />
-                  </Routes>
+                        <Route path="*" element={<NotFound />} />
+                      </Route>
+                      <Route path="admin" element={
+                        <Suspense fallback={<InitialLoader />}>
+                          <Admin />
+                        </Suspense>
+                      } />
+                    </Routes>
+                  </ErrorBoundary>
                   <Suspense fallback={null}>
                     <SubmitOfferModal />
                     <FeedbackModal />
