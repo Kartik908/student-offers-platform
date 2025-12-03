@@ -65,6 +65,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.1.4
         version: 1.2.0(@types/react-dom@18.3.6(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@sentry/react':
+        specifier: ^10.28.0
+        version: 10.28.0(react@18.3.1)
       '@supabase/supabase-js':
         specifier: ^2.75.0
         version: 2.75.0
@@ -1376,6 +1379,36 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@sentry-internal/browser-utils@10.28.0':
+    resolution: {integrity: sha512-FYcslFXo+Lq5/9/G83NSVK2vQlcXRkbJ6AHrMwZyPv1Qd9KJ08qoZo4buxMv63MzYDicNF591HBAqCxsv5gXsA==}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/feedback@10.28.0':
+    resolution: {integrity: sha512-vIv59ZN7Ig/oa6se/qGR69Odx3SQRoW2sIcbmJpxbjRF44Re0ZLFk6vBB3AyUvU3Lqnvabbw3y5AAwJt7Z//ug==}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/replay-canvas@10.28.0':
+    resolution: {integrity: sha512-/5KnIJXms0DHiqwOsND23fBMIJ1wUzAH5DiGHdY5yHGQTYy9BmVgUxW/Pv57kXqkgA3nBvE38z5Nu6+Cq6uixw==}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/replay@10.28.0':
+    resolution: {integrity: sha512-umFBdM5eVJJYnUbrjrSJdjfqs21OMDz5pJtNPTNO8+KjTNSMg/QozBkEyaQZEEfdjYZy9MAcwfQPDPfEMvfUuQ==}
+    engines: {node: '>=18'}
+
+  '@sentry/browser@10.28.0':
+    resolution: {integrity: sha512-OJY5L/2IDB82Eh5Ko83I9YgBN45VBtFi0TFUxSrVDcdeha1tC9YS/975U294K9T2B0kKG65jF8JkWa6x3Gi6HA==}
+    engines: {node: '>=18'}
+
+  '@sentry/core@10.28.0':
+    resolution: {integrity: sha512-9yFIPxyfWkDzt+IaRjboeNiXOKi22ZRGG3ELmZlLak8JCC+vA+q/+AmF/8Jnw59WlL3/KVC1Q8+t8bLCkxlswg==}
+    engines: {node: '>=18'}
+
+  '@sentry/react@10.28.0':
+    resolution: {integrity: sha512-n8RCgjqoRh4R9B39jvAUMwRCs2eTIG96CZStZ5TMcRozQyOQ92Cj+aWRrX70nMjoyN3SVI1aLJ6wKB8Lqyw89A==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: ^16.14.0 || 17.x || 18.x || 19.x
+
   '@supabase/auth-js@2.75.0':
     resolution: {integrity: sha512-J8TkeqCOMCV4KwGKVoxmEBuDdHRwoInML2vJilthOo7awVCro2SM+tOcpljORwuBQ1vHUtV62Leit+5wlxrNtw==}
 
@@ -1982,6 +2015,9 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
+  hoist-non-react-statics@3.3.2:
+    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
+
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
@@ -2287,6 +2323,9 @@ packages:
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
+
+  react-is@16.13.1:
+    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
   react-remove-scroll-bar@2.3.8:
     resolution: {integrity: sha512-9r+yi9+mgU33AKcj6IbT9oRCO78WriSj6t/cF8DWBZJ9aOGPOTEDvdUDz1FwKim7QXWwmHqtdHnRJfhAxEG46Q==}
@@ -3726,6 +3765,41 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.40.0':
     optional: true
 
+  '@sentry-internal/browser-utils@10.28.0':
+    dependencies:
+      '@sentry/core': 10.28.0
+
+  '@sentry-internal/feedback@10.28.0':
+    dependencies:
+      '@sentry/core': 10.28.0
+
+  '@sentry-internal/replay-canvas@10.28.0':
+    dependencies:
+      '@sentry-internal/replay': 10.28.0
+      '@sentry/core': 10.28.0
+
+  '@sentry-internal/replay@10.28.0':
+    dependencies:
+      '@sentry-internal/browser-utils': 10.28.0
+      '@sentry/core': 10.28.0
+
+  '@sentry/browser@10.28.0':
+    dependencies:
+      '@sentry-internal/browser-utils': 10.28.0
+      '@sentry-internal/feedback': 10.28.0
+      '@sentry-internal/replay': 10.28.0
+      '@sentry-internal/replay-canvas': 10.28.0
+      '@sentry/core': 10.28.0
+
+  '@sentry/core@10.28.0': {}
+
+  '@sentry/react@10.28.0(react@18.3.1)':
+    dependencies:
+      '@sentry/browser': 10.28.0
+      '@sentry/core': 10.28.0
+      hoist-non-react-statics: 3.3.2
+      react: 18.3.1
+
   '@supabase/auth-js@2.75.0':
     dependencies:
       '@supabase/node-fetch': 2.6.15
@@ -4331,6 +4405,10 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  hoist-non-react-statics@3.3.2:
+    dependencies:
+      react-is: 16.13.1
+
   ignore@5.3.2: {}
 
   imagetools-core@9.0.0: {}
@@ -4592,6 +4670,8 @@ snapshots:
   react-hook-form@7.55.0(react@18.3.1):
     dependencies:
       react: 18.3.1
+
+  react-is@16.13.1: {}
 
   react-remove-scroll-bar@2.3.8(@types/react@18.3.20)(react@18.3.1):
     dependencies:
