@@ -1,0 +1,419 @@
+
+> student-offers-nextjs@0.1.0 lint
+> eslint
+
+
+/Users/kartik/Desktop/student-offers-nextjs/components/admin/LocationCombobox.tsx
+  5:10  warning  'CloseButton' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/kartik/Desktop/student-offers-nextjs/components/admin/ManageOffersTable.tsx
+  105:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  210:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/kartik/Desktop/student-offers-nextjs/components/admin/OfferForm.tsx
+  479:18  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+/Users/kartik/Desktop/student-offers-nextjs/components/admin/OfferForm.tsx:479:18
+  477 |
+  478 |                 {/* Conditional JSON Fields */}
+> 479 |                 {form.watch("has_alt_links") && (
+      |                  ^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  480 |                     <FormField
+  481 |                         control={form.control}
+  482 |                         name="alt_links"  react-hooks/incompatible-library
+
+/Users/kartik/Desktop/student-offers-nextjs/components/admin/OfferVisibilityTable.tsx
+  326:57  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/kartik/Desktop/student-offers-nextjs/components/analytics/DeferredPostHog.tsx
+  18:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/analytics/DeferredPostHog.tsx:18:9
+  16 |
+  17 |     useEffect(() => {
+> 18 |         setMounted(true);
+     |         ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  19 |     }, []);
+  20 |
+  21 |     useEffect(() => {  react-hooks/set-state-in-effect
+
+/Users/kartik/Desktop/student-offers-nextjs/components/forms/CategoryCombobox.tsx
+  73:6  warning  React Hook React.useMemo has a missing dependency: 'categories'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/kartik/Desktop/student-offers-nextjs/components/highlights/OfferCarousel.tsx
+  45:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/highlights/OfferCarousel.tsx:45:7
+  43 |     const container = scrollContainerRef.current;
+  44 |     if (container) {
+> 45 |       manageArrows();
+     |       ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  46 |       container.addEventListener('scroll', manageArrows);
+  47 |       window.addEventListener('resize', manageArrows);
+  48 |       const timeoutId = setTimeout(manageArrows, 100);  react-hooks/set-state-in-effect
+
+/Users/kartik/Desktop/student-offers-nextjs/components/home/RandomizedGrid.tsx
+  18:34  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/home/RandomizedGrid.tsx:18:34
+  16 |         for (let i = shuffled.length - 1; i > 0; i--) {
+  17 |             // Use a simple random shuffle for display variety
+> 18 |             const j = Math.floor(Math.random() * (i + 1));
+     |                                  ^^^^^^^^^^^^^ Cannot call impure function
+  19 |             [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  20 |         }
+  21 |         return shuffled.slice(0, 12);  react-hooks/purity
+
+/Users/kartik/Desktop/student-offers-nextjs/components/nav/SearchDialog.tsx
+  190:92  error    Unknown property 'cmdk-input-wrapper' found                                                                                                                                                                                                                                              react/no-unknown-property
+  339:57  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/kartik/Desktop/student-offers-nextjs/components/nav/ThemeToggle.tsx
+  17:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/nav/ThemeToggle.tsx:17:5
+  15 |
+  16 |   useEffect(() => {
+> 17 |     setMounted(true)
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  18 |   }, [])
+  19 |
+  20 |   const handleToggle = useCallback(() => {  react-hooks/set-state-in-effect
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/CustomOfferModals.tsx
+   85:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  221:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/DiscountCodeModal.tsx
+  59:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/ExtraInfoModal.tsx
+  93:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/OfferCard.tsx
+  265:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @next/next/no-img-element
+  334:12  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/OfferCard.tsx:334:12
+  332 |           </div>
+  333 |
+> 334 |           <ClaimButton />
+      |            ^^^^^^^^^^^ This component is created during render
+  335 |         </CardContent>
+  336 |
+  337 |         <CardFooter className="px-4 py-2 border-t dark:border-white/10 bg-muted/50 flex justify-center rounded-b-2xl">
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/OfferCard.tsx:163:23
+  161 |   };
+  162 |
+> 163 |   const ClaimButton = () => {
+      |                       ^^^^^^^
+> 164 |     // Custom modal offers (highest priority)
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 165 |     if (useCustomModal) {
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 232 |     );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 233 |   };
+      | ^^^^ The component is created during render here
+  234 |
+  235 |   return (
+  236 |     <>  react-hooks/static-components
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/OfferListItem.tsx
+  288:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @next/next/no-img-element
+  399:30  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/OfferListItem.tsx:399:30
+  397 |                         {/* Mobile Claim Button - Inline with Tags */}
+  398 |                         <div className="sm:hidden flex-shrink-0">
+> 399 |                             <ClaimButton />
+      |                              ^^^^^^^^^^^ This component is created during render
+  400 |                         </div>
+  401 |                     </div>
+  402 |                 </div>
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/OfferListItem.tsx:146:25
+  144 |     const urgencyBadge = parseUrgencyBadge();
+  145 |
+> 146 |     const ClaimButton = () => {
+      |                         ^^^^^^^
+> 147 |         const handleClaimClick = () => {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 148 |             track('offer_claim_clicked', {
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 226 |         );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 227 |     };
+      | ^^^^^^ The component is created during render here
+  228 |
+  229 |     // Calculate extra tags count (limit to 1 primary + location)
+  230 |     const primaryTag = deal.tags?.[0];  react-hooks/static-components
+  414:18  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/OfferListItem.tsx:414:18
+  412 |             {/* Claim Button - Desktop Only (Bottom Right) */}
+  413 |             <div className="absolute bottom-4 right-4 z-20 hidden sm:block">
+> 414 |                 <ClaimButton />
+      |                  ^^^^^^^^^^^ This component is created during render
+  415 |             </div>
+  416 |
+  417 |             {/* Modals */}
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/OfferListItem.tsx:146:25
+  144 |     const urgencyBadge = parseUrgencyBadge();
+  145 |
+> 146 |     const ClaimButton = () => {
+      |                         ^^^^^^^
+> 147 |         const handleClaimClick = () => {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 148 |             track('offer_claim_clicked', {
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 226 |         );
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 227 |     };
+      | ^^^^^^ The component is created during render here
+  228 |
+  229 |     // Calculate extra tags count (limit to 1 primary + location)
+  230 |     const primaryTag = deal.tags?.[0];                                                          react-hooks/static-components
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/RegionalOfferModal.tsx
+  185:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/RegionalOfferModal.tsx:185:7
+  183 |         ? detectedCountry
+  184 |         : availableCountries[0];
+> 185 |       setSelectedCountry(initialCountry);
+      |       ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  186 |     }
+  187 |   }, [isOpen, availableCountries, selectedCountry]);
+  188 |  react-hooks/set-state-in-effect
+  226:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/RegionalOfferModal.tsx:226:7
+  224 |   useEffect(() => {
+  225 |     if (!isOpen) {
+> 226 |       setSelectedCountry('');
+      |       ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  227 |     }
+  228 |   }, [isOpen]);
+  229 |                                                                       react-hooks/set-state-in-effect
+  274:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            @next/next/no-img-element
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/SearchBarModal.tsx
+  84:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/VerticalListModal.tsx
+   94:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/VerticalListModal.tsx:94:7
+  92 |         ? detectedCountry
+  93 |         : availableCountries[0];
+> 94 |       setSelectedCountry(initialCountry);
+     |       ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  95 |     }
+  96 |   }, [isOpen, availableCountries, selectedCountry]);
+  97 |  react-hooks/set-state-in-effect
+  101:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/offers/VerticalListModal.tsx:101:7
+   99 |   useEffect(() => {
+  100 |     if (!isOpen) {
+> 101 |       setSelectedCountry('');
+      |       ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  102 |     }
+  103 |   }, [isOpen]);
+  104 |                                                               react-hooks/set-state-in-effect
+  169:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @next/next/no-img-element
+
+/Users/kartik/Desktop/student-offers-nextjs/components/pages/AllToolsPage.tsx
+  31:10  warning  'useOffers' is defined but never used. Allowed unused vars must match /^_/u              @typescript-eslint/no-unused-vars
+  39:10  warning  'OfferGridLoadingState' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/kartik/Desktop/student-offers-nextjs/components/pages/PrivacyCookiesTermsPage.tsx
+  20:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/pages/PrivacyCookiesTermsPage.tsx:20:9
+  18 |
+  19 |     useEffect(() => {
+> 20 |         setMounted(true)
+     |         ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  21 |
+  22 |         // Check if user came from cookie banner
+  23 |         if (typeof window !== 'undefined') {  react-hooks/set-state-in-effect
+
+/Users/kartik/Desktop/student-offers-nextjs/components/promo/GitHubPackStickyBar.tsx
+  41:9  error  Error: Cannot access variable before it is declared
+
+`handleDismiss` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/kartik/Desktop/student-offers-nextjs/components/promo/GitHubPackStickyBar.tsx:41:9
+  39 |     if (isClaimed) {
+  40 |       const timer = setTimeout(() => {
+> 41 |         handleDismiss();
+     |         ^^^^^^^^^^^^^ `handleDismiss` accessed before it is declared
+  42 |       }, 3000);
+  43 |       return () => clearTimeout(timer);
+  44 |     }
+
+/Users/kartik/Desktop/student-offers-nextjs/components/promo/GitHubPackStickyBar.tsx:47:3
+  45 |   }, [isClaimed]);
+  46 |
+> 47 |   const handleDismiss = () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 48 |     sessionStorage.setItem('github_pack_bar_dismissed', 'true');
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 49 |     setIsVisible(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 50 |     // Unmount after animation
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 51 |     setTimeout(() => setShouldRender(false), 500);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 52 |   };
+     | ^^^^^ `handleDismiss` is declared here
+  53 |
+  54 |   const handleClaimClick = () => {
+  55 |     sessionStorage.setItem('github_pack_claimed', 'true');  react-hooks/immutability
+
+/Users/kartik/Desktop/student-offers-nextjs/components/seo/OfferStructuredData.tsx
+  39:47  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/seo/OfferStructuredData.tsx:39:47
+  37 |                     availability: 'https://schema.org/InStock',
+  38 |                     url: offer.claim_url,
+> 39 |                     priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+     |                                               ^^^^^^^^^^ Cannot call impure function
+  40 |                     eligibleCustomerType: {
+  41 |                         '@type': 'BusinessEntityType',
+  42 |                         name: 'Student',  react-hooks/purity
+  95:39  error  Error: Cannot call impure function during render
+
+`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/seo/OfferStructuredData.tsx:95:39
+  93 |             availability: 'https://schema.org/InStock',
+  94 |             url: offer.claim_url,
+> 95 |             priceValidUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+     |                                       ^^^^^^^^^^ Cannot call impure function
+  96 |             eligibleCustomerType: {
+  97 |                 '@type': 'BusinessEntityType',
+  98 |                 name: 'Student',                                                          react-hooks/purity
+
+/Users/kartik/Desktop/student-offers-nextjs/components/seo/SEO.tsx
+  3:21  warning  'props' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/kartik/Desktop/student-offers-nextjs/components/ui/command.tsx
+  44:52  error  Unknown property 'cmdk-input-wrapper' found  react/no-unknown-property
+
+/Users/kartik/Desktop/student-offers-nextjs/components/ui/dialog.tsx
+  36:64  warning  'ref' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/kartik/Desktop/student-offers-nextjs/components/ui/textarea.tsx
+  7:1  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-empty-object-type')
+
+/Users/kartik/Desktop/student-offers-nextjs/components/ui/tooltip.tsx
+  63:11  error  Error: This value cannot be modified
+
+Modifying a value returned from 'useContext()' is not allowed..
+
+/Users/kartik/Desktop/student-offers-nextjs/components/ui/tooltip.tsx:63:11
+  61 |       onPointerDown={(e) => {
+  62 |         if (e.pointerType === "touch") {
+> 63 |           isTouch.current = true;
+     |           ^^^^^^^ `isTouch` cannot be modified
+  64 |         } else {
+  65 |           isTouch.current = false;
+  66 |         }
+
+Hint: If this value is a Ref (value returned by `useRef()`), rename the variable to end in "Ref"  react-hooks/immutability
+
+/Users/kartik/Desktop/student-offers-nextjs/components/utils/DeferredRender.tsx
+  40:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/kartik/Desktop/student-offers-nextjs/components/utils/DeferredRender.tsx:40:13
+  38 |         // SSR check
+  39 |         if (typeof window === 'undefined' || !window.IntersectionObserver) {
+> 40 |             setIsVisible(true);
+     |             ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  41 |             return;
+  42 |         }
+  43 |  react-hooks/set-state-in-effect
+
+/Users/kartik/Desktop/student-offers-nextjs/data/categories.ts
+  29:3  warning  'Package' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/Users/kartik/Desktop/student-offers-nextjs/eslint.config.mjs
+  12:7  error  '__dirname' is assigned a value but never used  no-unused-vars
+
+✖ 42 problems (20 errors, 22 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
