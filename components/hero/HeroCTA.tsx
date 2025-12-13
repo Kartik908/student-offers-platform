@@ -13,7 +13,7 @@ export const HeroCTA = () => {
   const handleCTAClick = () => {
     // Use fallback analytics that works even when PostHog is blocked
     trackEvent('hero_cta_clicked', {
-      button_text: 'Browse All Tools',
+      button_text: 'Browse All Offers',
       location: 'hero_section',
     });
   };
@@ -22,7 +22,7 @@ export const HeroCTA = () => {
     <div className="flex items-center justify-center mt-7 sm:mt-10">
       <Button asChild size="lg" className="h-[52px] sm:h-12 px-6 text-base font-semibold group text-primary-foreground">
         <Link href="/tools" className="flex items-center gap-2" onClick={handleCTAClick}>
-          Browse All Tools
+          Browse All Offers
           <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
         </Link>
       </Button>
