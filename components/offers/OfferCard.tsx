@@ -49,7 +49,6 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
   const nameRef = useRef<HTMLSpanElement>(null);
   const nameContainerRef = useRef<HTMLDivElement>(null);
   const [isNameOverflowing, setIsNameOverflowing] = useState(false);
-  const [containerWidth, setContainerWidth] = useState(200);
   const offerRef = useRef<HTMLParagraphElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
 
@@ -58,11 +57,16 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
 
   useEffect(() => {
     const checkTruncation = () => {
-      if (offerRef.current) setIsOfferTruncated(offerRef.current.scrollHeight > offerRef.current.clientHeight);
-      if (descriptionRef.current) setIsDescriptionTruncated(descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight);
+      // Add 2px threshold to prevent false positives from sub-pixel rendering
+      const THRESHOLD = 2;
+      if (offerRef.current) {
+        setIsOfferTruncated(offerRef.current.scrollHeight > offerRef.current.clientHeight + THRESHOLD);
+      }
+      if (descriptionRef.current) {
+        setIsDescriptionTruncated(descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight + THRESHOLD);
+      }
       if (nameRef.current && nameContainerRef.current) {
-        setIsNameOverflowing(nameRef.current.scrollWidth > nameContainerRef.current.clientWidth);
-        setContainerWidth(nameContainerRef.current.clientWidth);
+        setIsNameOverflowing(nameRef.current.scrollWidth > nameContainerRef.current.clientWidth + THRESHOLD);
       }
     };
 
@@ -111,12 +115,13 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
     <div
       ref={nameContainerRef}
       className="marquee-container overflow-hidden whitespace-nowrap block relative"
-      style={{ '--container-width': `${containerWidth} px` } as React.CSSProperties}
     >
       <span
         ref={nameRef}
         className="marquee-text inline-block font-semibold text-lg leading-tight group-hover/card:text-primary"
       >
+        {deal.name}
+        <span className="mx-4 text-muted-foreground/30">•</span>
         {deal.name}
       </span>
     </div>
@@ -124,7 +129,7 @@ const OfferCard = ({ deal, isHighlighted = false }: OfferCardProps) => {
     <div ref={nameContainerRef} className="overflow-hidden whitespace-nowrap block relative">
       <span
         ref={nameRef}
-        className="inline-block font-semibold text-lg leading-tight group-hover/card:text-primary"
+        className="inline-block font-semibold text-lg leading-tight group-hover/card:text-primary truncate"
       >
         {deal.name}
       </span>

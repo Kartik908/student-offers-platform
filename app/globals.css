@@ -359,17 +359,22 @@
     white-space: nowrap;
     display: block;
     position: relative;
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
   }
 
   .marquee-text {
     display: inline-block;
-    animation: marquee-scroll 8s linear infinite;
-    animation-play-state: paused;
+    padding-right: 2rem;
+    transform: translateX(0);
+    transition: transform 0.3s ease-out;
   }
 
-  /* Trigger animation on card hover */
+  /* On hover: start the animation */
+  .group\/card:hover .marquee-text,
   .group:hover .marquee-text {
-    animation-play-state: running;
+    animation: marquee-scroll 6s linear infinite;
+    transition: none;
   }
 
   @keyframes marquee-scroll {
@@ -378,14 +383,14 @@
     }
 
     100% {
-      transform: translateX(calc(-100% + var(--container-width, 200px)));
+      transform: translateX(-50%);
     }
   }
 
   /* Respect reduced motion preferences */
   @media (prefers-reduced-motion: reduce) {
     .marquee-text {
-      animation: none;
+      animation: none !important;
     }
   }
 

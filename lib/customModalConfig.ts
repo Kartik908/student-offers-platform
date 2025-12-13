@@ -15,14 +15,15 @@ export interface CustomModalConfig {
  * Add new entries here to enable custom modals for specific offers
  */
 export const CUSTOM_MODAL_CONFIGS: CustomModalConfig[] = [
-  // Google AI Pro uses SearchBarModal (exact match only)
+  // Google AI Pro - disabled, using regular ExtraInfoModal now
+  // Keep config here if we want to re-enable in future
   {
     offerIdentifier: 'google-ai-pro',
-    enabled: true,
+    enabled: false, // Disabled - using regular ExtraInfoModal
     modalType: 'searchbar',
     customFields: ['extra_info'],
   },
-  
+
   // Add more custom modal configs here
   // {
   //   offerIdentifier: 'github-student-pack',

@@ -98,12 +98,33 @@ const Admin = () => {
               </p>
             )}
           </div>
-          <Button
-            variant="outline"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={async () => {
+                try {
+                  const res = await fetch('/api/revalidate');
+                  const data = await res.json();
+                  if (data.revalidated) {
+                    toast.success('Cache refreshed!', {
+                      description: 'All pages will show fresh data.'
+                    });
+                  }
+                } catch {
+                  toast.error('Failed to refresh cache');
+                }
+              }}
+            >
+              🔄 Refresh Cache
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </div>
         </div>
         <Tabs defaultValue="submissions" className="space-y-6">
           <TabsList className="flex w-full overflow-x-auto pb-2 justify-start lg:grid lg:grid-cols-7 h-auto gap-1.5 bg-transparent lg:bg-muted p-0 lg:p-1 no-scrollbar">
