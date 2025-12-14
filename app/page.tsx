@@ -62,9 +62,9 @@ export default async function Page() {
             />
           </DeferredRender>
 
-          <DeferredRender minHeight="300px">
-            <IndiaSection offers={offers} />
-          </DeferredRender>
+
+          {/* IndiaSection: No DeferredRender needed - geo data is prefetched, component is lightweight */}
+          <IndiaSection offers={offers} />
 
           <DeferredRender minHeight="400px">
             <UnderratedSection offers={offers} />

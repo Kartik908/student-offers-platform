@@ -1,6 +1,6 @@
 'use client';
 
-import { useGeolocation } from "@/hooks/useGeolocation";
+import { useGeolocationContext } from "@/providers/GeolocationProvider";
 import OfferCard from "@/components/offers/OfferCard";
 import { Offer } from "@/types";
 
@@ -9,9 +9,10 @@ interface IndiaSectionProps {
 }
 
 export function IndiaSection({ offers }: IndiaSectionProps) {
-    const { isIndia } = useGeolocation();
+    const { isIndia, isLoading } = useGeolocationContext();
 
-    if (!isIndia) return null;
+    // Show nothing while still loading geo data, or if not in India
+    if (isLoading || !isIndia) return null;
 
     const indiaOffers = offers
         .filter(offer =>

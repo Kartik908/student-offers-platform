@@ -315,11 +315,11 @@ const OfferListItem = ({ deal }: OfferListItemProps) => {
                     <div className="mb-1.5 flex items-start gap-2 flex-wrap">
                         <div
                             className={cn(
-                                "text-xs font-semibold px-2.5 rounded-lg border flex items-center justify-center h-7 max-w-fit",
+                                "text-xs font-semibold px-2.5 py-1.5 rounded-lg border flex items-center sm:justify-center min-h-7",
                                 getOfferBadgeClasses(deal.offer)
                             )}
                         >
-                            <span className="line-clamp-1">{deal.offer}</span>
+                            <span className="sm:line-clamp-1">{deal.offer}</span>
                         </div>
                         {urgencyBadge && (
                             <div className="flex items-center justify-center gap-1.5 px-2.5 py-0.5 bg-destructive/80 text-destructive-foreground/90 rounded-full text-[10px] font-semibold shadow-sm whitespace-nowrap h-7">

@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { ModalProvider } from '@/providers/ModalProvider';
 import { FavoritesProvider } from '@/providers/FavoritesProvider';
+import { GeolocationProvider } from '@/providers/GeolocationProvider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { GlobalLoadingIndicator } from '@/components/layout/GlobalLoadingIndicator';
@@ -32,19 +33,22 @@ export function GlobalProviders({ children }: { children: ReactNode }) {
 
             <GlobalLoadingIndicator />
 
-            <FavoritesProvider>
-                <ModalProvider>
-                    <TooltipProvider>
-                        {/* Children render immediately - not wrapped by deferred components */}
-                        {children}
+            {/* Geolocation - starts fetching immediately on mount */}
+            <GeolocationProvider>
+                <FavoritesProvider>
+                    <ModalProvider>
+                        <TooltipProvider>
+                            {/* Children render immediately - not wrapped by deferred components */}
+                            {children}
 
-                        {/* These load after main content */}
-                        <DeferredPostHog>{null}</DeferredPostHog>
-                        <ClientModals />
-                        <Toaster />
-                    </TooltipProvider>
-                </ModalProvider>
-            </FavoritesProvider>
+                            {/* These load after main content */}
+                            <DeferredPostHog>{null}</DeferredPostHog>
+                            <ClientModals />
+                            <Toaster />
+                        </TooltipProvider>
+                    </ModalProvider>
+                </FavoritesProvider>
+            </GeolocationProvider>
 
             <ScrollToTop />
         </ThemeProvider>

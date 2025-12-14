@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { Offer } from '@/types';
 import { getPreloadedOffers } from '@/lib/preloader';
-import { useGeolocation } from './useGeolocation';
+import { useGeolocationContext } from '@/providers/GeolocationProvider';
 
 /**
  * Check if an offer should be filtered based on region
@@ -24,7 +24,7 @@ export const useOffers = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const { isIndia, isLoading: geoLoading } = useGeolocation();
+  const { isIndia, isLoading: geoLoading } = useGeolocationContext();
 
   const refresh = () => {
 
