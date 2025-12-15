@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     siteName: 'Student Offers',
     images: [
       {
-        url: '/og-image.jpg',
-        width: 2424,
-        height: 1260,
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
         alt: 'Student Offers - Verified Student Discounts & Deals',
-        type: 'image/jpeg',
+        type: 'image/png',
       }
     ],
   },
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     creator: '@studentoffers',
     title: 'Student Offers - Verified Student Discounts & Deals',
     description: 'Discover verified student discounts across Tech, AI, Fashion & Travel. Save on GitHub, Notion, Spotify, Nike + many others.',
-    images: ['/og-image.jpg'],
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
